@@ -16,6 +16,9 @@ namespace HistoricalGiftsShop.Data.Models
             this.Roles = new HashSet<IdentityUserRole<string>>();
             this.Claims = new HashSet<IdentityUserClaim<string>>();
             this.Logins = new HashSet<IdentityUserLogin<string>>();
+            this.BoughtPaintings = new HashSet<Painting>();
+            this.BoughtBooks = new HashSet<Book>();
+            this.BoughtCeramic = new HashSet<Ceramic>();
         }
 
         // Audit info
@@ -33,5 +36,11 @@ namespace HistoricalGiftsShop.Data.Models
         public virtual ICollection<IdentityUserClaim<string>> Claims { get; set; }
 
         public virtual ICollection<IdentityUserLogin<string>> Logins { get; set; }
+
+        public virtual ICollection<Painting> BoughtPaintings { get; set; }
+
+        public virtual ICollection<Book> BoughtBooks { get; set; }
+
+        public virtual ICollection<Ceramic> BoughtCeramic { get; set; }
     }
 }
