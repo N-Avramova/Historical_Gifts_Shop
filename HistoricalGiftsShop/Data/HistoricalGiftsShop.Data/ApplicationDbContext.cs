@@ -26,6 +26,18 @@
 
         public DbSet<Setting> Settings { get; set; }
 
+        public DbSet<BookCoverType> BookCoverTypes { get; set; }
+
+        public DbSet<Book> Books { get; set; }
+
+        public DbSet<Ceramic> Ceramics { get; set; }
+
+        public DbSet<Images> Images { get; set; }
+
+        public DbSet<Painting> Paintings { get; set; }
+
+        public DbSet<Category> Categories { get; set; }
+
         public override int SaveChanges() => this.SaveChanges(true);
 
         public override int SaveChanges(bool acceptAllChangesOnSuccess)

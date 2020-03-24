@@ -21,11 +21,19 @@
 
         public string Description { get; set; }
 
+        public string ImageUrl { get; set; }
+
         public int? CategoryId { get; set; }
+
+        public string PaintingId { get; set; }
 
         public virtual ICollection<Painting> Paintings { get; set; }
 
+        public int BookId { get; set; }
+
         public virtual ICollection<Book> Books { get; set; }
+
+        public int CeramicId { get; set; }
 
         public virtual ICollection<Ceramic> Ceramics { get; set; }
     }

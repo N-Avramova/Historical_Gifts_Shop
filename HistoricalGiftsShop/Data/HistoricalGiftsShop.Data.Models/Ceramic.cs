@@ -44,7 +44,9 @@
         /// <summary>
         /// Gets or sets capacity.
         /// </summary>
-        public string Capacity { get; set; }
+        public int Capacity { get; set; }
+
+        public string Measure { get; set; }
 
         public ICollection<Images> ImageUrls { get; set; }
     }

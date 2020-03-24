@@ -47,6 +47,8 @@
         /// </summary>
         public decimal Price { get; set; }
 
+        public int BookCoverTypeId { get; set; }
+
         public BookCoverType CoverType { get; set; }
 
         // if paperback and hardback then page count else null

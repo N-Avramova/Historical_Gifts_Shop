@@ -4,14 +4,16 @@ using HistoricalGiftsShop.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace HistoricalGiftsShop.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200322130442_AddInitialModels")]
+    partial class AddInitialModels
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -152,10 +154,10 @@ namespace HistoricalGiftsShop.Data.Migrations
                     b.Property<string>("Author")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("BookCoverTypeId")
+                    b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
-                    b.Property<int>("CategoryId")
+                    b.Property<int?>("CoverTypeId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedOn")
@@ -201,9 +203,9 @@ namespace HistoricalGiftsShop.Data.Migrations
 
                     b.HasIndex("ApplicationUserId");
 
-                    b.HasIndex("BookCoverTypeId");
-
                     b.HasIndex("CategoryId");
+
+                    b.HasIndex("CoverTypeId");
 
                     b.HasIndex("IsDeleted");
 
@@ -252,13 +254,7 @@ namespace HistoricalGiftsShop.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("BookId")
-                        .HasColumnType("int");
-
                     b.Property<int?>("CategoryId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CeramicId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedOn")
@@ -270,9 +266,6 @@ namespace HistoricalGiftsShop.Data.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ImageUrl")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
@@ -280,9 +273,6 @@ namespace HistoricalGiftsShop.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PaintingId")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Title")
@@ -305,8 +295,8 @@ namespace HistoricalGiftsShop.Data.Migrations
                     b.Property<string>("ApplicationUserId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("Capacity")
-                        .HasColumnType("int");
+                    b.Property<string>("Capacity")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
@@ -325,9 +315,6 @@ namespace HistoricalGiftsShop.Data.Migrations
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
-
-                    b.Property<string>("Measure")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
@@ -602,17 +589,15 @@ namespace HistoricalGiftsShop.Data.Migrations
                         .WithMany("BoughtBooks")
                         .HasForeignKey("ApplicationUserId");
 
-                    b.HasOne("HistoricalGiftsShop.Data.Models.BookCoverType", "CoverType")
-                        .WithMany()
-                        .HasForeignKey("BookCoverTypeId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.HasOne("HistoricalGiftsShop.Data.Models.Category", "Category")
                         .WithMany("Books")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.HasOne("HistoricalGiftsShop.Data.Models.BookCoverType", "CoverType")
+                        .WithMany()
+                        .HasForeignKey("CoverTypeId");
                 });
 
             modelBuilder.Entity("HistoricalGiftsShop.Data.Models.Ceramic", b =>
