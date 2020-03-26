@@ -1,13 +1,14 @@
-﻿using HistoricalGiftsShop.Data.Common.Repositories;
-using HistoricalGiftsShop.Data.Models;
-using HistoricalGiftsShop.Services.Mapping;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace HistoricalGiftsShop.Services.Data
+﻿namespace HistoricalGiftsShop.Services.Data
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+
+    using HistoricalGiftsShop.Data.Common.Repositories;
+    using HistoricalGiftsShop.Data.Models;
+    using HistoricalGiftsShop.Services.Mapping;
+
     public class CategoriesService : ICategoriesService
     {
         private readonly IDeletableEntityRepository<Category> categoriesRepository;

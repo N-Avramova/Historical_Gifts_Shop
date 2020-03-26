@@ -17,7 +17,8 @@
             this.bookCoverTypesRepository = bookCoverTypesRepository;
         }
 
-        public async Task CreateAsync(string name, string value, bool havePages)
+        /* for future use
+         * public async Task CreateAsync(string name, string value, bool havePages)
         {
             var bookCoverType = new BookCoverType
             {
@@ -28,7 +29,7 @@
 
             await this.bookCoverTypesRepository.AddAsync(bookCoverType);
             await this.bookCoverTypesRepository.SaveChangesAsync();
-        }
+        } */
 
         public IEnumerable<T> GetAll<T>()
         {

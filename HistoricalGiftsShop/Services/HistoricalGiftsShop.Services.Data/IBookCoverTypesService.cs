@@ -7,8 +7,8 @@
 
     public interface IBookCoverTypesService
     {
-        Task CreateAsync(string name, string value, bool havePages);
-
+        // for future use
+        // Task CreateAsync(string name, string value, bool havePages);
         IEnumerable<T> GetAll<T>();
     }
 }
