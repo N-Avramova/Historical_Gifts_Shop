@@ -2,15 +2,29 @@
 {
     using System.Diagnostics;
 
+    using HistoricalGiftsShop.Data.Common.Repositories;
+    using HistoricalGiftsShop.Services.Data;
     using HistoricalGiftsShop.Web.ViewModels;
-
+    using HistoricalGiftsShop.Web.ViewModels.Home;
     using Microsoft.AspNetCore.Mvc;
 
     public class HomeController : BaseController
     {
+        private readonly ICategoriesService categoriesService;
+
+        public HomeController(ICategoriesService categoriesService)
+        {
+            this.categoriesService = categoriesService;
+        }
+
         public IActionResult Index()
         {
-            return this.View();
+            var viewModel = new IndexViewModel
+            {
+                Categories =
+                    this.categoriesService.GetAll<IndexCategoryViewModel>(),
+            };
+            return this.View(viewModel);
         }
 
         public IActionResult Privacy()
