@@ -61,5 +61,7 @@
         // http://nationallibrary.bg/wp/?page_id=5077#what
         [RegularExpression("[0-9]{3}-[0-9]{10}")]
         public string ISBN { get; set; }
+
+        public string ImageUrl { get; set; }
     }
 }

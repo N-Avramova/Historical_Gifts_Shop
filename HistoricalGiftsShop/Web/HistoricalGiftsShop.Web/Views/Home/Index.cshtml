@@ -11,9 +11,10 @@
 <div class="row">
     @foreach (var category in Model.Categories)
     {
-        <div class="col-md-4 media">
-            <a href="@category.Url" class="mr-3">
-                <img src="@category.ImageUrl" width="150" height="150" alt="@category.Title" />
+    <div class="col-sm-4 col-md-3">
+        <div class="preview">
+            <a href="@category.Url">
+                <img src="@category.ImageUrl" width="200" height="200" alt="@category.Title" />
             </a>
             <div class="media-body">
                 <h5 class="mt-0">
@@ -24,9 +25,6 @@
                 @category.Description
             </div>
         </div>
-    }
+     </div>
+     }
 </div>
-
-@*@section Scripts {
-    <script>$("h1").html("Hello!");</script>
-}*@

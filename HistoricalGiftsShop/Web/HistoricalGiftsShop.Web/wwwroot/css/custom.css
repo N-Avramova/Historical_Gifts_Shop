@@ -1,0 +1,32 @@
+﻿.gallery {
+    padding: 30px 10px 10px;
+}
+
+.main-title {
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.preview {
+    background-color: rgb(255, 255, 255);
+    margin-bottom: 10px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: rgb(222, 222, 222);
+    border-image: initial;
+    padding: 10px;
+    text-align: center;
+}
+
+.price {
+    text-align: center;
+    border-bottom: 1px dashed #dedede;
+    border-top: 1px dashed #dedede;
+    margin-bottom: 20px;
+    color: #907765;
+    font-family: lato,sans-serif;
+    font-size: 24px;
+    font-weight: 300;
+    line-height: 24px;
+    padding: 5px 0;
+}
