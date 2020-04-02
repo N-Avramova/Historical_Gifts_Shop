@@ -1,13 +1,30 @@
-﻿@model HistoricalGiftsShop.Web.ViewModels.Categories.CategoryViewModel
+﻿@using HistoricalGiftsShop.Common
+@using HistoricalGiftsShop.Data.Models
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+@model HistoricalGiftsShop.Web.ViewModels.Categories.CategoryViewModel
 @{
     this.ViewData["Title"] = Model.Title;
 }
 
 <div class="alert alert-info">
     @Model.Title
+    @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+    {
+        if (@Model.Name == "Книги")
+        {
+            <a asp-controller="Books" asp-action="Create" class="float-right">Добавете нова книга</a>
+        }
+        if (@Model.Name == "Картини")
+        {
+            <a asp-controller="Paintings" asp-action="Create" class="float-right">Добавете нова картина</a>
+        }
+    }
 </div>
 
-@{    
+@{
     if (@Model.Books.Any())
     {
         ViewData["controllerName"] = "Books";
@@ -16,12 +33,12 @@
     if (@Model.Paintings.Any())
     {
         ViewData["controllerName"] = "Paintings";
-        <partial name="_CategoriesPartial" for="Paintings" view-data="ViewData"/>
+        <partial name="_CategoriesPartial" for="Paintings" view-data="ViewData" />
     }
     if (@Model.Ceramics.Any())
     {
         ViewData["controllerName"] = "Ceramics";
-        <partial name="_CategoriesPartial" for="Ceramics" view-data="ViewData"/>
+        <partial name="_CategoriesPartial" for="Ceramics" view-data="ViewData" />
     }
 }
 

@@ -1,0 +1,103 @@
+﻿@using HistoricalGiftsShop.Common;
+@model HistoricalGiftsShop.Web.ViewModels.Books.BookViewModel
+@{
+    this.ViewData["Title"] = Model.Title;
+}
+
+<div class="alert alert-info">
+    <a href="@Model.Url">@Model.Category.Name</a>
+    @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+    {
+        <a asp-controller="Books" asp-action="Create" class="float-right">Добавете нова книга</a>
+    }
+</div>
+
+<div class="row">
+    <div class="col-sm">
+        <img alt="@Model.Title" src="@Model.ImageUrl" class="mr-3" />
+    </div>
+    <div class="col-sm">
+        <h1>@Model.Title</h1>
+        <hr /><hr />
+        <div class="p-2">
+            <span>Автор: @Model.Author</span><a id="readDesc" href="javascript:;" class="float-right">Прочети описанието</a><br />
+            <span>Издателство: @Model.Publisher</span><br />
+            <span class="alert-info">@Model.AvailableStock</span>
+        </div>
+        <hr />
+        @if (Model.InStock)
+        {
+            <div>
+                <div class="price">
+                    Цена: @Model.Price лв.
+                </div>
+            </div>
+            <hr />
+            <div class="mb-3">
+                <span class="quantity-label">Количество:</span>
+                <input type="number" value="1" min="1" step="1" class="quantity-filed" id="getQuantity" required>
+            </div>
+            <div>
+                <a asp-action="AddToCart" class="btn btn-primary" id="btnAddToCart">
+                    @GlobalConstants.AddToCart
+                </a>
+            </div>
+        }
+        <hr />
+    </div>
+</div>
+<br />
+<br />
+<ul class="nav nav-tabs" id="InfoTab" role="tablist">
+    <li class="nav-item">
+        <a class="nav-link active" id="home-tab" data-toggle="tab" href="#description" role="tab" aria-controls="description" aria-selected="true">Описание</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" id="addinfo-tab" data-toggle="tab" href="#addinfo" role="tab" aria-controls="addinfo" aria-selected="false">Допълнителна информация</a>
+    </li>
+</ul>
+<div class="tab-content" id="myTabContent">
+    <div class="tab-pane fade show active" id="description" role="tabpanel" aria-labelledby="desc-tab">
+        <p>@Model.Description</p>
+    </div>
+    <div class="tab-pane fade" id="addinfo" role="tabpanel" aria-labelledby="addinfo-tab">
+        <div class="row">
+            <div class="col">ISBN</div>
+            <div class="col border-right">@Model.ISBN</div>
+            <div class="col">Издателство</div>
+            <div class="col">@Model.Publisher</div>
+        </div>
+        <div class="row">
+            <div class="col">Автор</div>
+            <div class="col border-right">@Model.Author</div>
+            <div class="col">Година на издаване</div>
+            <div class="col">@Model.YearOfPublisher.Year</div>
+        </div>
+        <div class="row">
+            <div class="col">Език</div>
+            <div class="col border-right">@Model.Language</div>
+            <div class="col">Корица</div>
+            <div class="col">@Model.CoverType.Value</div>
+        </div>
+        @if (Model.CoverType.HavePages)
+        {
+            <div class="row">
+                <div class="col"></div>
+                <div class="col border-right"></div>
+                <div class="col">Брой страници</div>
+                <div class="col">@Model.Pages</div>
+            </div>
+        }
+    </div>
+</div>
+
+@section Scripts
+{
+    <script>
+        $("#readDesc").click((function () {
+            $([document.documentElement, document.body]).animate({
+                scrollTop: $("#InfoTab").offset().top
+            }, 2000);
+        }));
+    </script>
+}

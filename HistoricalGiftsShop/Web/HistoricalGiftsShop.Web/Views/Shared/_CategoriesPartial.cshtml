@@ -2,27 +2,18 @@
 
 <div class="row">
     @{
-        var controllerName = ((string)ViewData["controllerName"]);   
+        var controllerName = ((string)ViewData["controllerName"]);
         foreach (var product in Model)
         {
-        <div class="col-sm-4 col-md-3">
+            <div class="col-sm-4 col-md-3">
                 <div class="preview">
-                    @if (product.InStock)
-                    {
-                        <a asp-controller="@controllerName" asp-action="ById" asp-route-id="@product.Id">
-                            <div>
-                                <img src="@product.ImageUrl" width="200" height="200" alt="@product.TitleValue" />
-                            </div>
-                        </a>
-                    }
-                    else
-                    {
+                    <a asp-controller="@controllerName" asp-action="ById" asp-route-id="@product.Id">
                         <div>
                             <img src="@product.ImageUrl" width="200" height="200" alt="@product.TitleValue" />
                         </div>
-                    }                    
+                    </a>
                     <h5>@product.TitleValue</h5>
-                    <div class="price">@product.Price лв.</div>                    
+                    <div class="price">@product.Price лв.</div>
                     @if (product.InStock)
                     {
                         <a asp-action="AddToCart" class="btn btn-primary" name="btnAddToCart">
@@ -34,8 +25,16 @@
                         <span class="btn btn-primary">@product.AddButtonText</span>
                     }
                 </div>
-        </div>
+            </div>
         }
     }
 </div>
+<nav aria-label="Page navigation example">
+    <ul class="pagination">
+        <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+        <li class="page-item"><a class="page-link" href="#">1</a></li>
+        <li class="page-item"><a class="page-link" href="#">2</a></li>
+        <li class="page-item"><a class="page-link" href="#">Next</a></li>
+    </ul>
+</nav>
 
