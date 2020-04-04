@@ -8,11 +8,16 @@
   <PropertyGroup>
     <CodeAnalysisRuleSet>..\..\Rules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Categories\CategoryDropDownViewModel.cs" />
+  </ItemGroup>
   <ItemGroup>
     <AdditionalFiles Include="..\..\stylecop.json" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="3.1.3" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.164" PrivateAssets="all">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
@@ -20,6 +25,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Data\HistoricalGiftsShop.Data.Models\HistoricalGiftsShop.Data.Models.csproj" />
+    <ProjectReference Include="..\..\HistoricalGiftsShop.Common\HistoricalGiftsShop.Common.csproj" />
     <ProjectReference Include="..\..\Services\HistoricalGiftsShop.Services.Mapping\HistoricalGiftsShop.Services.Mapping.csproj" />
   </ItemGroup>
 

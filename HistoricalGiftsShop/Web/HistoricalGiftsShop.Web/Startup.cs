@@ -2,6 +2,7 @@
 {
     using System.Reflection;
 
+    using CloudinaryDotNet;
     using HistoricalGiftsShop.Data;
     using HistoricalGiftsShop.Data.Common;
     using HistoricalGiftsShop.Data.Common.Repositories;
@@ -62,6 +63,15 @@
             services.AddTransient<ICategoriesService, CategoriesService>();
             services.AddTransient<IBookCoverTypesService, BookCoverTypesService>();
             services.AddTransient<IBooksService, BooksService>();
+            services.AddSingleton<ICloudinaryService, CloudinaryService>();
+
+            Account account = new Account(
+                    this.configuration["Cloudinary:ApiName"],
+                    this.configuration["Cloudinary:ApiKey"],
+                    this.configuration["Cloudinary:ApiSecret"]);
+
+            Cloudinary cloudinary = new Cloudinary(account);
+            services.AddSingleton(cloudinary);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
