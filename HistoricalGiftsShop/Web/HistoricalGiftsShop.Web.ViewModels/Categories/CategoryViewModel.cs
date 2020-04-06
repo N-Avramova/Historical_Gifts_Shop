@@ -20,6 +20,8 @@
 
         public string ImageUrl { get; set; }
 
+        public string Url => $"/c/{this.Name.Replace(' ', '-')}";
+
         public IEnumerable<ProductInCategoryViewModel> Paintings { get; set; }
 
         public IEnumerable<ProductInCategoryViewModel> Books { get; set; }

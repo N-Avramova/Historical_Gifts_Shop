@@ -5,6 +5,14 @@
     var selectListYears = Enumerable.Range(2000, DateTime.Now.Year - 1999).Reverse().Select(x => new SelectListItem(x.ToString(), x.ToString()));
 }
 
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Начало</a></li>
+        <li class="breadcrumb-item"><a href="@Model.Category.Url">@Model.Category.Name</a></li>
+        <li class="breadcrumb-item active" aria-current="page">@this.ViewData["Title"]</li>
+    </ol>
+</nav>
+
 <div class="text-center">
     <h1>@this.ViewData["Title"]</h1>
 </div>
@@ -38,6 +46,7 @@
     <div class="form-group">
         <label asp-for="Stock"></label>
         <input type="number" min="0" asp-for="Stock" class="form-control">
+        <span asp-validation-for="Stock" class="text-danger"></span>
     </div>
     <div class="form-group">
         <label asp-for="Price"></label>
@@ -72,7 +81,7 @@
         <input id="imageUrl" type="file" accept="image/*" asp-for="ImageUrl" class="form-control">
         <span asp-validation-for="ImageUrl" class="text-danger"></span>
     </div>
-    <input type="hidden" asp-for="CategoryId" />
+    <input type="hidden" value="@Model.Category.Id" asp-for="CategoryId"/>
     <hr />
     <input type="submit" class="btn btn-primary" value="Create" />
 </form>

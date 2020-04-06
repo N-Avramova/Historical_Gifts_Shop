@@ -43,12 +43,18 @@
         [Required]
         public int CategoryId { get; set; }
 
+        public string Url { get; set; }
+
+        public CategoryViewModel Category { get; set; }
+
+        [RegularExpression("^[0-9]+$", ErrorMessage = "Моля, въведете цяло число.")]
         [Range(0, int.MaxValue)]
         [Display(Name = "Наличност")]
         public int Stock { get; set; }
 
         [Required]
-        [Display(Name = "Цена")]
+        [RegularExpression(@"^(0|[1-9]\d*)(\.\d+)?$", ErrorMessage = "Моля, въведете цената в един от следните формати: 15 или 15.35")]
+        [Display(Name = "Цена (лв)")]
         public decimal Price { get; set; }
 
         [Required]
@@ -57,6 +63,8 @@
 
         public IEnumerable<BookCoverTypeDropDownViewModel> BookCoverTypes { get; set; }
 
+        [RegularExpression("^[0-9]+$", ErrorMessage = "Моля, въведете цяло число.")]
+        [Range(0, int.MaxValue)]
         [Display(Name = "Брой страници")]
         public int? Pages { get; set; }
 

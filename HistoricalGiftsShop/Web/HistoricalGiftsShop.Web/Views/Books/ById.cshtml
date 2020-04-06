@@ -4,13 +4,17 @@
     this.ViewData["Title"] = Model.Title;
 }
 
-<div class="alert alert-info">
-    <a href="@Model.Url">@Model.Category.Name</a>
-    @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
-    {
-        <a asp-controller="Books" asp-action="Create" class="float-right">Добавете нова книга</a>
-    }
-</div>
+@if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+{
+    <a asp-controller="Books" asp-action="Create" class="breadcrumb float-right">Добавете нова книга</a>
+}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Начало</a></li>
+        <li class="breadcrumb-item"><a href="@Model.Url">@Model.Category.Name</a></li>
+        <li class="breadcrumb-item active" aria-current="page">@Model.Title</li>
+    </ol>
+</nav>
 
 <div class="row">
     <div class="col-sm">

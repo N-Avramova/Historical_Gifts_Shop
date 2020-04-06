@@ -57,7 +57,7 @@
             var bookCoverTypes = this.bookCoverTypesService.GetAll<BookCoverTypeDropDownViewModel>();
             var viewModel = new BookCreateInputModel
             {
-                CategoryId = category.Id,
+                Category = category,
                 BookCoverTypes = bookCoverTypes,
             };
             return this.View(viewModel);

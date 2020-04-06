@@ -9,20 +9,24 @@
     this.ViewData["Title"] = Model.Title;
 }
 
-<div class="alert alert-info">
-    @Model.Title
-    @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+
+@if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+{
+    if (@Model.Name == "Книги")
     {
-        if (@Model.Name == "Книги")
-        {
-            <a asp-controller="Books" asp-action="Create" class="float-right">Добавете нова книга</a>
-        }
-        if (@Model.Name == "Картини")
-        {
-            <a asp-controller="Paintings" asp-action="Create" class="float-right">Добавете нова картина</a>
-        }
+        <a asp-controller="Books" asp-action="Create" class="breadcrumb float-right">Добавете нова книга</a>
     }
-</div>
+    if (@Model.Name == "Картини")
+    {
+        <a asp-controller="Paintings" asp-action="Create" class="breadcrumb float-right">Добавете нова картина</a>
+    }
+}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Начало</a></li>
+        <li class="breadcrumb-item active" aria-current="page">@Model.Name</li>
+    </ol>
+</nav>
 
 @{
     if (@Model.Books.Any())
