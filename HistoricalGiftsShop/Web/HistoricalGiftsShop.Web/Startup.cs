@@ -63,8 +63,10 @@
             services.AddTransient<ICategoriesService, CategoriesService>();
             services.AddTransient<IBookCoverTypesService, BookCoverTypesService>();
             services.AddTransient<IBooksService, BooksService>();
-            services.AddSingleton<ICloudinaryService, CloudinaryService>();
+            services.AddTransient<IImagesService, ImagesService>();
+            services.AddTransient<IPaintingsService, PaintingsService>();
 
+            services.AddSingleton<ICloudinaryService, CloudinaryService>();
             Account account = new Account(
                     this.configuration["Cloudinary:ApiName"],
                     this.configuration["Cloudinary:ApiKey"],

@@ -1,0 +1,78 @@
+﻿@using HistoricalGiftsShop.Common;
+@model HistoricalGiftsShop.Web.ViewModels.Paintings.PaintingViewModel
+@{
+    this.ViewData["Title"] = Model.Name;
+}
+
+@if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+{
+    <a asp-controller="Paintings" asp-action="Create" class="breadcrumb float-right">Добавете нова картина</a>
+}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Начало</a></li>
+        <li class="breadcrumb-item"><a href="@Model.Url">@Model.Category.Name</a></li>
+        <li class="breadcrumb-item active" aria-current="page">@Model.Name</li>
+    </ol>
+</nav>
+
+<div class="row">
+    <div class="col-sm">
+        <img alt="@Model.Name" src="@Model.CoverImageUrl" width="500" height="500" class="mr-3" />
+        <div class="container">
+            <div class="row">
+                @foreach (var item in Model.ImageUrls)
+                {
+                    if (!item.CoverImage)
+                    {
+                        <div class="col">
+                            <img src="@item.ImageUrl" alt="@Model.Name" width="100" height="100">
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+    <div class="col-sm">
+        <h1>@Model.Name</h1>
+        <hr /><hr />
+        <div class="p-2">
+            <span>Автор: @Model.Author</span><br />
+            <span>Код на продукта: @Model.Code</span><br />
+            <span>Размери: L-@Model.Length см / W-@Model.Width см / H-@Model.Height см</span><br />
+            <span class="alert-info">@Model.AvailableStock</span>
+        </div>
+        <hr />
+        @if (Model.InStock)
+        {
+            <div>
+                <div class="price">
+                    Цена: @Model.Price лв.
+                </div>
+            </div>
+            <hr />
+            <div class="mb-3">
+                <span class="quantity-label">Количество:</span>
+                <input type="number" value="1" min="1" step="1" class="quantity-filed" id="getQuantity" required>
+            </div>
+            <div>
+                <a asp-action="AddToCart" class="btn btn-primary" id="btnAddToCart">
+                    @GlobalConstants.AddToCart
+                </a>
+            </div>
+        }
+        <hr />
+    </div>
+</div>
+<br />
+<br />
+<ul class="nav nav-tabs" id="InfoTab" role="tablist">
+    <li class="nav-item">
+        <a class="nav-link active" id="home-tab" data-toggle="tab" href="#description" role="tab" aria-controls="description" aria-selected="true">Описание</a>
+    </li>
+</ul>
+<div class="tab-content" id="myTabContent">
+    <div class="tab-pane fade show active" id="description" role="tabpanel" aria-labelledby="desc-tab">
+        <p>@Model.Description</p>
+    </div>
+</div>

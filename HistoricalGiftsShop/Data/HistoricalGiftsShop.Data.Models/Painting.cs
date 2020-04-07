@@ -23,6 +23,11 @@
         public string Description { get; set; }
 
         /// <summary>
+        /// Gets or sets author ot painting.
+        /// </summary>
+        public string Author { get; set; }
+
+        /// <summary>
         /// Gets or sets category id.
         /// </summary>
         public int CategoryId { get; set; }
@@ -64,6 +69,6 @@
 
         public PaintingType Paint { get; set; }
 
-        public ICollection<Images> ImageUrls { get; set; }
+        public IEnumerable<Images> ImageUrls { get; set; }
     }
 }

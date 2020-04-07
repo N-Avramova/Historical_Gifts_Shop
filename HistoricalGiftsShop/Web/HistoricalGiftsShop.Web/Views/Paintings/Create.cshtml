@@ -1,0 +1,83 @@
+﻿@using HistoricalGiftsShop.Data.Models;
+@model HistoricalGiftsShop.Web.ViewModels.Paintings.PaintingCreateInputModel
+@{
+    this.ViewData["Title"] = "Добавяне на нова картина";
+}
+
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Начало</a></li>
+            <li class="breadcrumb-item"><a href="@Model.Category.Url">@Model.Category.Name</a></li>
+            <li class="breadcrumb-item active" aria-current="page">@this.ViewData["Title"]</li>
+        </ol>
+    </nav>
+
+<div class="text-center">
+    <h1>@this.ViewData["Title"]</h1>
+</div>
+
+<form method="post" asp-action="Create" enctype="multipart/form-data">
+    <div class="form-group">
+        <label asp-for="Name"></label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Description"></label>
+        <textarea asp-for="Description" class="form-control"></textarea>
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Author"></label>
+        <input asp-for="Author" class="form-control">
+        <span asp-validation-for="Author" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Stock"></label>
+        <input type="number" min="0" asp-for="Stock" class="form-control">
+        <span asp-validation-for="Stock" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Price"></label>
+        <input min="0" asp-for="Price" class="form-control">
+        <span asp-validation-for="Price" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Paint"></label>
+        <select asp-for="Paint" asp-items="Html.GetEnumSelectList<PaintingType>()" class="form-control">
+        </select>
+        <span asp-validation-for="Paint" class="text-danger"></span>
+    </div> 
+    <div class="form-group">
+        <label asp-for="Code"></label>
+        <input asp-for="Code" class="form-control">
+        <span asp-validation-for="Code" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Length"></label>
+        <input type="number" min="0" asp-for="Length" class="form-control">
+        <span asp-validation-for="Length" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Width"></label>
+        <input type="number" min="0" asp-for="Width" class="form-control">
+        <span asp-validation-for="Width" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Height"></label>
+        <input type="number" min="0" asp-for="Height" class="form-control">
+        <span asp-validation-for="Height" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+            <label asp-for="CoverImageUrl"></label>
+            <input id="imageUrl" type="file" accept="image/*" asp-for="CoverImageUrl" class="form-control">
+            <span asp-validation-for="CoverImageUrl" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="AdditionalImageUrls"></label>
+            <input id="imageUrls" type="file" accept="image/*" asp-for="AdditionalImageUrls" class="form-control" multiple>
+        </div>
+    <input type="hidden" value="@Model.Category.Id" asp-for="CategoryId" />
+    <hr />
+    <input type="submit" class="btn btn-primary" value="Create" />
+</form>
