@@ -1,32 +1,34 @@
-﻿@model IEnumerable<HistoricalGiftsShop.Web.ViewModels.Categories.ProductInCategoryViewModel>
+﻿@using System.Web
 
-<div class="row">
-    @{
-        var controllerName = ((string)ViewData["controllerName"]);
-        foreach (var product in Model)
-        {
-            <div class="col-sm-4 col-md-3">
-                <div class="preview">
-                    <a asp-controller="@controllerName" asp-action="ById" asp-route-id="@product.Id">
-                        <div>
-                            <img src="@product.ProductImageUrl" width="200" height="200" alt="@product.TitleValue" />
-                        </div>
-                    </a>
-                    <h5>@product.TitleValue</h5>
-                    <div class="price">@product.Price лв.</div>
-                    @if (product.InStock)
-                    {
-                        <a asp-action="AddToCart" class="btn btn-primary" name="btnAddToCart">
-                            @product.AddButtonText
+@model IEnumerable<HistoricalGiftsShop.Web.ViewModels.Categories.ProductInCategoryViewModel>
+
+    <div class="row">
+        @{
+            var controllerName = ((string)ViewData["controllerName"]);
+            foreach (var product in Model)
+            {
+                <div class="col-sm-4 col-md-3">
+                    <div class="preview">
+                        <a asp-controller="@controllerName" asp-action="ById" asp-route-id="@product.Id">
+                            <div>
+                                <img src="@product.ProductImageUrl" width="200" height="200" alt="@product.TitleValue" />
+                            </div>
                         </a>
-                    }
-                    else
-                    {
-                        <span class="btn btn-primary">@product.AddButtonText</span>
-                    }
+                        <h5>@product.TitleValue</h5>
+                        <div class="price">@product.Price лв.</div>
+                        @if (product.InStock)
+                        {
+                            <a asp-action="AddToCart" asp-controller="ShoppingCart" asp-route-id="@product.Id" asp-route-amount="1" asp-route-returnUrl="@HttpUtility.UrlDecode(Context.Request.Path)" class="btn btn-primary" name="btnAddToCart">
+                                @product.AddButtonText
+                            </a>
+                        }
+                        else
+                        {
+                            <span class="btn btn-primary">@product.AddButtonText</span>
+                        }
+                    </div>
                 </div>
-            </div>
+            }
         }
-    }
-</div>
+    </div>
 

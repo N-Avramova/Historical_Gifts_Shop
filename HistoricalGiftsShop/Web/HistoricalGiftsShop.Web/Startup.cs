@@ -1,5 +1,6 @@
 ﻿namespace HistoricalGiftsShop.Web
 {
+    using System;
     using System.Reflection;
 
     using CloudinaryDotNet;
@@ -37,6 +38,13 @@
             services.AddDbContext<ApplicationDbContext>(
                 options => options.UseSqlServer(this.configuration.GetConnectionString("DefaultConnection")));
 
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromDays(2);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+            });
+
             services.AddDefaultIdentity<ApplicationUser>(IdentityOptionsProvider.GetIdentityOptions)
                 .AddRoles<ApplicationRole>().AddEntityFrameworkStores<ApplicationDbContext>();
 
@@ -65,6 +73,7 @@
             services.AddTransient<IBooksService, BooksService>();
             services.AddTransient<IImagesService, ImagesService>();
             services.AddTransient<IPaintingsService, PaintingsService>();
+            services.AddTransient<IShoppingCartItemsService, ShoppingCartItemsService>();
 
             services.AddSingleton<ICloudinaryService, CloudinaryService>();
             Account account = new Account(
@@ -109,6 +118,7 @@
             app.UseStaticFiles();
             app.UseCookiePolicy();
 
+            app.UseSession();
             app.UseRouting();
 
             app.UseAuthentication();
