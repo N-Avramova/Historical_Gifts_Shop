@@ -1,5 +1,91 @@
-﻿
-<h2>
-    Your shopping cart<br />
-    Here are the products in your shopping cart.
-</h2>
+﻿@model HistoricalGiftsShop.Web.ViewModels.ShoppingCarts.ShoppingCartViewModel
+@using System.Globalization
+
+
+<div class="text-center">
+    <h4>
+        Your shopping cart
+        <br />Here are the products in your shopping cart.
+    </h4>
+</div>
+<br />
+
+@if (this.TempData["NotEnoughItems"] != null)
+{
+    <div class="alert alert-success">
+        @this.TempData["NotEnoughItems"]
+    </div>
+}
+
+@if (Model.ShoppingCartItems.Count() != 0)
+{
+    <table class="table-bordered w-100">
+        <thead class="thead-light">
+            <tr>
+                <th scope="col" class="text-center">Remove</th>
+                <th scope="col" class="text-center">Продукт</th>
+                <th scope="col" class="text-right">Количество</th>
+                <th scope="col" class="text-right">Цена</th>
+                <th scope="col" class="text-right">Общо</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var lineItem in Model.ShoppingCartItems)
+            {
+                <tr>
+                    <td class="text-center"><a asp-controller="ShoppingCarts" asp-action="Remove" asp-route-productId="@lineItem.ProductId">Remove Item</a></td>
+                    <td class="text-left"><a asp-controller="@lineItem.ProductControllerName" asp-action="ById" asp-route-id="@lineItem.ProductId">@lineItem.ProductName</a></td>
+                    <td class="text-center">
+                        <div class="text-muted small ml-3">
+                            <a asp-controller="ShoppingCarts" asp-action="ChangeAmount" asp-route-productId="@lineItem.ProductId" asp-route-isUpAmount="true">
+                                <i class="fa fa-plus-square"></i>
+                            </a>
+                            <span id="itemAmount">@lineItem.Amount</span>
+                            <a asp-controller="ShoppingCarts" asp-action="ChangeAmount" asp-route-productId="@lineItem.ProductId" asp-route-isUpAmount="false">
+                                <i class="fa fa-minus-square"></i>
+                            </a>
+                        </div>
+                    </td>
+                    <td class="text-right">@lineItem.ProductPrice.ToString("c", CultureInfo.CreateSpecificCulture("bg-BG"))</td>
+                    <td class="text-right">
+                        @((lineItem.Amount * lineItem.ProductPrice).ToString("c", CultureInfo.CreateSpecificCulture("bg-BG")))
+                    </td>
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="4" class="text-right">Общо:</td>
+                <td class="text-right">
+                    @(Model.ShoppingCartTotal.ToString("c", CultureInfo.CreateSpecificCulture("bg-BG")))
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+    @if (this.ViewData["NotEnoughItems"] != null)
+    {
+        <div>
+            <p class="invalidAmount">@this.ViewData["NotEnoughItems"]</p>
+        </div>
+    }
+}
+
+@if (Model.ShoppingCartItems.Count() != 0)
+{
+    <div class="text-right" style="float:right">
+        <div class="btn-group ">
+            <a class="btn btn-success" asp-controller="Order">Продължи</a>
+        </div>
+    </div>
+}
+else
+{
+    <span class="info alert-danger text-center">Your cart is empty, add some items to order them</span>
+}
+
+<div>
+    <a class="btn btn-primary" asp-action="Back" asp-route-returnUrl="@Model.ReturnUrl">Обратно в магазина</a>
+</div>
+
+

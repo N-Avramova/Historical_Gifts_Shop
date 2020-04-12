@@ -18,7 +18,7 @@
                         <div class="price">@product.Price лв.</div>
                         @if (product.InStock)
                         {
-                            <a asp-action="AddToCart" asp-controller="ShoppingCart" asp-route-id="@product.Id" asp-route-amount="1" asp-route-returnUrl="@HttpUtility.UrlDecode(Context.Request.Path)" class="btn btn-primary" name="btnAddToCart">
+                            <a asp-action="AddToCart" asp-controller="ShoppingCarts" asp-route-id="@product.Id" asp-route-amount="1" asp-route-returnUrl="@HttpUtility.UrlDecode(Context.Request.Path)" class="btn btn-primary" name="btnAddToCart">
                                 @product.AddButtonText
                             </a>
                         }
