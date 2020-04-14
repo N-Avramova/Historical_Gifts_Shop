@@ -1,4 +1,6 @@
-﻿@using HistoricalGiftsShop.Common;
+﻿@using System.Web
+@using HistoricalGiftsShop.Common;
+
 @model HistoricalGiftsShop.Web.ViewModels.Paintings.PaintingViewModel
 @{
     this.ViewData["Title"] = Model.Name;
@@ -51,14 +53,18 @@
                 </div>
             </div>
             <hr />
+            <form id="updateCartForm" method="post"></form>
             <div class="mb-3">
                 <span class="quantity-label">Количество:</span>
-                <input type="number" value="1" min="1" step="1" class="quantity-filed" id="getQuantity" required>
+                <input type="number" value="1" min="1" max="@Model.Stock" class="quantity-filed" id="getQuantity" required">
+            </div>
+            <div id="divInfo">
             </div>
             <div>
-                <a asp-action="AddToCart" class="btn btn-primary" id="btnAddToCart">
+                <a href="#" onclick="updateCart('@Model.Id')" class="btn btn-primary">
                     @GlobalConstants.AddToCart
                 </a>
+                <input id="returnUrl" type="hidden" value="@HttpUtility.UrlDecode(Context.Request.Path)" />
             </div>
         }
         <hr />
@@ -76,3 +82,35 @@
         <p>@Model.Description</p>
     </div>
 </div>
+
+@section Scripts
+{
+    <script>
+          $("#getQuantity").change((function () {
+              $("#divInfo").html('');
+              $("#divInfo").removeClass("alert alert-success");
+          }));
+          function updateCart(id) {
+              var token = $("#updateCartForm input[name=__RequestVerificationToken]").val();
+              var quantityValue = parseInt($("#getQuantity").val());
+            var json = { Id: id, Quantity: quantityValue };
+            $.ajax({
+                url: "/api/shoppingcarts",
+                type: "POST",
+                data: JSON.stringify(json),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                headers: { 'X-CSRF-TOKEN': token },
+                success: function (currentQuantity) {
+                    if (currentQuantity != -1) {
+                        window.location.href = '@Url.Action("Index", "ShoppingCarts")?returnUrl=' + $("#returnUrl").val();
+                    }
+                    else {
+                        $("#divInfo").html('Няма достатъчно количество на склад.');
+                        $("#divInfo").addClass("alert alert-success");
+                    }
+                }
+            });
+        }
+    </script>
+}

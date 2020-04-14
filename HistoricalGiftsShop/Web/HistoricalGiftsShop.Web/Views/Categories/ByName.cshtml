@@ -1,4 +1,5 @@
-﻿@using HistoricalGiftsShop.Common
+﻿@using System.Web
+@using HistoricalGiftsShop.Common
 @using HistoricalGiftsShop.Data.Models
 @using Microsoft.AspNetCore.Identity
 @inject SignInManager<ApplicationUser> SignInManager
@@ -28,6 +29,7 @@
     </ol>
 </nav>
 
+<form id="updateCartForm" method="post"></form>
 @{
     if (@Model.Books.Any())
     {
@@ -44,6 +46,28 @@
         ViewData["controllerName"] = "Ceramics";
         <partial name="_CategoriesPartial" for="Ceramics" view-data="ViewData" />
     }
+}
+<input id="returnUrl" type="hidden" value="@HttpUtility.UrlDecode(Context.Request.Path)" />
+
+@section Scripts
+{
+    <script>
+          function updateCart(id) {
+            var token = $("#updateCartForm input[name=__RequestVerificationToken]").val();
+            var json = { Id: id, Quantity: 1 };
+            $.ajax({
+                url: "/api/shoppingcarts",
+                type: "POST",
+                data: JSON.stringify(json),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                headers: { 'X-CSRF-TOKEN': token },
+                success: function (currentQuantity) {
+                        window.location.href = '@Url.Action("Index", "ShoppingCarts")?returnUrl=' + $("#returnUrl").val();
+                }
+            });
+        }
+    </script>
 }
 
 

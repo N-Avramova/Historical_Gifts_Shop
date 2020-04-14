@@ -4,18 +4,13 @@
 
 <div class="text-center">
     <h4>
-        Your shopping cart
-        <br />Here are the products in your shopping cart.
+        Кошница с продукти
     </h4>
 </div>
 <br />
 
-@if (this.TempData["NotEnoughItems"] != null)
-{
-    <div class="alert alert-success">
-        @this.TempData["NotEnoughItems"]
-    </div>
-}
+<div id="divInfo">
+</div>
 
 @if (Model.ShoppingCartItems.Count() != 0)
 {
@@ -34,22 +29,40 @@
             @foreach (var lineItem in Model.ShoppingCartItems)
             {
                 <tr>
-                    <td class="text-center"><a asp-controller="ShoppingCarts" asp-action="Remove" asp-route-productId="@lineItem.ProductId">Remove Item</a></td>
-                    <td class="text-left"><a asp-controller="@lineItem.ProductControllerName" asp-action="ById" asp-route-id="@lineItem.ProductId">@lineItem.ProductName</a></td>
+                    <td class="text-center">
+                        <form id="changeQuantityForm" method="post"></form>
+                        @*<a asp-controller="ShoppingCarts" asp-action="Remove" asp-route-productId="@lineItem.ProductId">Remove Item</a>*@
+                        <a href="#" onclick="changeQuantity('@lineItem.ProductId', 0)">
+                            Remove Item
+                        </a>
+                    </td>
+                    <td class="text-left">
+                        <a asp-controller="@lineItem.ProductControllerName" asp-action="ById" asp-route-id="@lineItem.ProductId">@lineItem.ProductName</a>
+                    </td>
                     <td class="text-center">
                         <div class="text-muted small ml-3">
-                            <a asp-controller="ShoppingCarts" asp-action="ChangeAmount" asp-route-productId="@lineItem.ProductId" asp-route-isUpAmount="true">
+                            @*<a asp-controller="ShoppingCarts" asp-action="ChangeAmount" asp-route-productId="@lineItem.ProductId" asp-route-isUpAmount="true">
+                                    <i class="fa fa-plus-square"></i>
+                                </a>*@
+                            <a href="#" onclick="changeQuantity('@lineItem.ProductId', 1)">
                                 <i class="fa fa-plus-square"></i>
                             </a>
-                            <span id="itemAmount">@lineItem.Amount</span>
-                            <a asp-controller="ShoppingCarts" asp-action="ChangeAmount" asp-route-productId="@lineItem.ProductId" asp-route-isUpAmount="false">
+                            @*<span id="itemAmount_@lineItem.ProductId">@lineItem.Amount</span>*@
+                            <div id="itemAmount_@lineItem.ProductId" class="diplay d-inline">@lineItem.Amount</div>
+
+                            @*<a asp-controller="ShoppingCarts" asp-action="ChangeAmount" asp-route-productId="@lineItem.ProductId" asp-route-isUpAmount="false">
+                                    <i class="fa fa-minus-square"></i>
+                                </a>*@
+                            <a href="#" onclick="changeQuantity('@lineItem.ProductId', -1)">
                                 <i class="fa fa-minus-square"></i>
                             </a>
                         </div>
                     </td>
-                    <td class="text-right">@lineItem.ProductPrice.ToString("c", CultureInfo.CreateSpecificCulture("bg-BG"))</td>
                     <td class="text-right">
-                        @((lineItem.Amount * lineItem.ProductPrice).ToString("c", CultureInfo.CreateSpecificCulture("bg-BG")))
+                        <div id="itemPrice_@lineItem.ProductId">@lineItem.ProductPrice.ToString("c", CultureInfo.CreateSpecificCulture("bg-BG"))</div>
+                    </td>
+                    <td class="text-right">
+                        <div id="itemRowPrice_@lineItem.ProductId">@((lineItem.Amount * lineItem.ProductPrice).ToString("c", CultureInfo.CreateSpecificCulture("bg-BG")))</div>
                     </td>
                 </tr>
             }
@@ -58,24 +71,18 @@
             <tr>
                 <td colspan="4" class="text-right">Общо:</td>
                 <td class="text-right">
-                    @(Model.ShoppingCartTotal.ToString("c", CultureInfo.CreateSpecificCulture("bg-BG")))
+                    <div id="totalPrice">@(Model.ShoppingCartTotal.ToString("c", CultureInfo.CreateSpecificCulture("bg-BG")))</div>
                 </td>
             </tr>
         </tfoot>
-    </table>
-    @if (this.ViewData["NotEnoughItems"] != null)
-    {
-        <div>
-            <p class="invalidAmount">@this.ViewData["NotEnoughItems"]</p>
-        </div>
-    }
+    </table>   
 }
 
 @if (Model.ShoppingCartItems.Count() != 0)
 {
     <div class="text-right" style="float:right">
         <div class="btn-group ">
-            <a class="btn btn-success" asp-controller="Order">Продължи</a>
+            <a class="btn btn-success" asp-controller="Order" asp-action="Continue">Продължи</a>
         </div>
     </div>
 }
@@ -85,7 +92,49 @@ else
 }
 
 <div>
-    <a class="btn btn-primary" asp-action="Back" asp-route-returnUrl="@Model.ReturnUrl">Обратно в магазина</a>
+    <a href="#" class="btn btn-primary" onclick="returnBack('@Model.ReturnUrl')">
+        Обратно в магазина
+    </a>
 </div>
+
+@section Scripts
+{
+    <script>
+        function returnBack(url) {
+            window.location.href = url;
+        }
+
+        function changeQuantity(id, quantityValue) {
+            var token = $("#changeQuantityForm input[name=__RequestVerificationToken]").val();
+            var json = { Id: id, Quantity: quantityValue };
+            $.ajax({
+                url: "/api/shoppingcarts",
+                type: "POST",
+                data: JSON.stringify(json),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                headers: { 'X-CSRF-TOKEN': token },
+                success: function (currentQuantity) {
+                    if (currentQuantity != -1) {
+                        $("#divInfo").html('');
+                        $("#divInfo").removeClass("alert alert-success");
+                        $("#itemAmount_" + id).html(currentQuantity);
+                        var itemPrice = parseFloat($("#itemPrice_" + id).html());
+                        $("#itemRowPrice_" + id).html((itemPrice * currentQuantity).toFixed(2) + " лв.");                        
+                        var totalPrice = parseFloat($("#totalPrice").html());
+                        $("#totalPrice").html((totalPrice + (quantityValue * itemPrice)).toFixed(2) + " лв.");    
+                        if (currentQuantity == 0) {
+                            window.location.href = '@Url.Action("Index", "ShoppingCarts")';
+                        }
+                    }
+                    else {
+                        $("#divInfo").html('Няма достатъчно количество на склад.');
+                        $("#divInfo").addClass("alert alert-success");
+                    }
+                }
+            });
+        }
+    </script>
+}
 
 
