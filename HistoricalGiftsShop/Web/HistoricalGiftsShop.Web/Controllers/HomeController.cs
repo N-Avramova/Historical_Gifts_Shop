@@ -6,6 +6,7 @@
     using HistoricalGiftsShop.Services.Data;
     using HistoricalGiftsShop.Web.ViewModels;
     using HistoricalGiftsShop.Web.ViewModels.Home;
+    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
 
     public class HomeController : BaseController
@@ -19,6 +20,12 @@
 
         public IActionResult Index()
         {
+            ISession session = this.HttpContext.Session;
+            if (session.GetString("ShoppingCartSumProduct") == null)
+            {
+                session.SetString("ShoppingCartSumProduct", "0 продукт(и) - 0.00лв");
+            }
+
             var viewModel = new IndexViewModel
             {
                 Categories =

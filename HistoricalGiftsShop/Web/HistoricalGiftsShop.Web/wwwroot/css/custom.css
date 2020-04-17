@@ -30,3 +30,14 @@
     line-height: 24px;
     padding: 5px 0;
 }
+
+.shopping-cart {
+    float: right;
+    background-color: #e8e8e8;
+    border: 1px solid #bcbcbc;
+    height: 35px;
+    width: 248px;
+    padding: 5px;
+    margin-bottom: 5px;
+    margin-left: 15px;
+}

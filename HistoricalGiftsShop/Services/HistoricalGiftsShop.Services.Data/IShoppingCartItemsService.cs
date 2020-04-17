@@ -13,6 +13,8 @@
 
         decimal GetShoppingCartTotal(string shoppingCartId);
 
+        int GetShoppingCartSumProduct(string shoppingCartId);
+
         Task<int> AddOrUpdateCartAsync(string shoppingCartId, string productId, int amount, string userId);
     }
 }

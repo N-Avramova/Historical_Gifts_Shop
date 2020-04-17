@@ -36,6 +36,11 @@
             return bookPrice + paintingPrice;
         }
 
+        public int GetShoppingCartSumProduct(string shoppingCartId)
+        {
+            return this.shoppingCartItemsRepository.All().Where(x => x.ShoppingCartId == shoppingCartId).Select(c => c.Amount).Sum();
+        }
+
         public IEnumerable<T> GetShoppingCartItems<T>(string shoppingCartId)
         {
             return this.shoppingCartItemsRepository.All().Include(b => b.Book).Include(p => p.Painting).Where(x => x.ShoppingCartId == shoppingCartId).To<T>().ToList();

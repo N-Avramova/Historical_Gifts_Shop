@@ -1,5 +1,6 @@
 ﻿@model HistoricalGiftsShop.Web.ViewModels.ShoppingCarts.ShoppingCartViewModel
 @using System.Globalization
+@using Microsoft.AspNetCore.Http;
 
 
 <div class="text-center">
@@ -31,7 +32,6 @@
                 <tr>
                     <td class="text-center">
                         <form id="changeQuantityForm" method="post"></form>
-                        @*<a asp-controller="ShoppingCarts" asp-action="Remove" asp-route-productId="@lineItem.ProductId">Remove Item</a>*@
                         <a href="#" onclick="changeQuantity('@lineItem.ProductId', 0)">
                             Remove Item
                         </a>
@@ -41,18 +41,10 @@
                     </td>
                     <td class="text-center">
                         <div class="text-muted small ml-3">
-                            @*<a asp-controller="ShoppingCarts" asp-action="ChangeAmount" asp-route-productId="@lineItem.ProductId" asp-route-isUpAmount="true">
-                                    <i class="fa fa-plus-square"></i>
-                                </a>*@
                             <a href="#" onclick="changeQuantity('@lineItem.ProductId', 1)">
                                 <i class="fa fa-plus-square"></i>
                             </a>
-                            @*<span id="itemAmount_@lineItem.ProductId">@lineItem.Amount</span>*@
                             <div id="itemAmount_@lineItem.ProductId" class="diplay d-inline">@lineItem.Amount</div>
-
-                            @*<a asp-controller="ShoppingCarts" asp-action="ChangeAmount" asp-route-productId="@lineItem.ProductId" asp-route-isUpAmount="false">
-                                    <i class="fa fa-minus-square"></i>
-                                </a>*@
                             <a href="#" onclick="changeQuantity('@lineItem.ProductId', -1)">
                                 <i class="fa fa-minus-square"></i>
                             </a>
@@ -75,14 +67,14 @@
                 </td>
             </tr>
         </tfoot>
-    </table>   
+    </table>
 }
 
 @if (Model.ShoppingCartItems.Count() != 0)
 {
     <div class="text-right" style="float:right">
         <div class="btn-group ">
-            <a class="btn btn-success" asp-controller="Order" asp-action="Continue">Продължи</a>
+            <a class="btn btn-success" asp-controller="Orders" asp-action="Create">Продължи</a>
         </div>
     </div>
 }
@@ -115,17 +107,8 @@ else
                 dataType: "json",
                 headers: { 'X-CSRF-TOKEN': token },
                 success: function (currentQuantity) {
-                    if (currentQuantity != -1) {
-                        $("#divInfo").html('');
-                        $("#divInfo").removeClass("alert alert-success");
-                        $("#itemAmount_" + id).html(currentQuantity);
-                        var itemPrice = parseFloat($("#itemPrice_" + id).html());
-                        $("#itemRowPrice_" + id).html((itemPrice * currentQuantity).toFixed(2) + " лв.");                        
-                        var totalPrice = parseFloat($("#totalPrice").html());
-                        $("#totalPrice").html((totalPrice + (quantityValue * itemPrice)).toFixed(2) + " лв.");    
-                        if (currentQuantity == 0) {
-                            window.location.href = '@Url.Action("Index", "ShoppingCarts")';
-                        }
+                    if (currentQuantity != -1) {                        
+                       window.location.href = '@Url.Action("Index", "ShoppingCarts")';                       
                     }
                     else {
                         $("#divInfo").html('Няма достатъчно количество на склад.');

@@ -37,6 +37,11 @@
             string userId = user?.Id;
 
             int currentAmount = await this.shoppingCartService.AddOrUpdateCartAsync(shoppingCartId, updateCart.Id, updateCart.Quantity, userId);
+            decimal shoppingCartTotal = this.shoppingCartService.GetShoppingCartTotal(shoppingCartId);
+            int shoppingCartSumProduct = this.shoppingCartService.GetShoppingCartSumProduct(shoppingCartId);
+
+            session.SetString("ShoppingCartSumProduct", string.Format("{0} продукт(и) - {1:0.00}лв", shoppingCartSumProduct, shoppingCartTotal));
+
             return this.Json(currentAmount);
         }
 
