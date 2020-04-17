@@ -47,5 +47,13 @@
                 .To<T>().FirstOrDefault();
             return book;
         }
+
+        public async void UpdateStockAsync(int id, int quantity)
+        {
+            var book = this.booksRepository.All().Where(x => x.Id == id).FirstOrDefault();
+            book.Stock = book.Stock - quantity;
+            this.booksRepository.Update(book);
+            await this.booksRepository.SaveChangesAsync();
+        }
     }
 }

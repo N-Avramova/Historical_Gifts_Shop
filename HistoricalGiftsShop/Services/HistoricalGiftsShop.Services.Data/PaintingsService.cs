@@ -46,5 +46,13 @@
                 .To<T>().FirstOrDefault();
             return painting;
         }
+
+        public async void UpdateStockAsync(string id, int quantity)
+        {
+            var painting = this.paintingsRepository.All().Where(x => x.Id == id).FirstOrDefault();
+            painting.Stock = painting.Stock - quantity;
+            this.paintingsRepository.Update(painting);
+            await this.paintingsRepository.SaveChangesAsync();
+        }
     }
 }
