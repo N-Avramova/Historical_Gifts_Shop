@@ -40,6 +40,10 @@
 
         public DbSet<ShoppingCartItem> ShoppingCartItems { get; set; }
 
+        public DbSet<OrderDetails> OrderDetails { get; set; }
+
+        public DbSet<Order> Orders { get; set; }
+
         public override int SaveChanges() => this.SaveChanges(true);
 
         public override int SaveChanges(bool acceptAllChangesOnSuccess)

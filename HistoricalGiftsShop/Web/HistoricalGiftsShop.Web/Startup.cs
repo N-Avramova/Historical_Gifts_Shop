@@ -74,6 +74,7 @@
             services.AddTransient<IImagesService, ImagesService>();
             services.AddTransient<IPaintingsService, PaintingsService>();
             services.AddTransient<IShoppingCartItemsService, ShoppingCartItemsService>();
+            services.AddTransient<IOrdersService, OrdersService>();
 
             services.AddSingleton<ICloudinaryService, CloudinaryService>();
             Account account = new Account(
