@@ -64,7 +64,7 @@
 
         public IEnumerable<T> GetOrderDetailsByOrderId<T>(int orderId)
         {
-            return this.orderDetailsRepository.All().Where(x => x.OrderId == orderId).To<T>().ToList();
+            return this.orderDetailsRepository.All().Include(b => b.Book).Include(p => p.Painting).Where(x => x.OrderId == orderId).To<T>().ToList();
         }
     }
 }

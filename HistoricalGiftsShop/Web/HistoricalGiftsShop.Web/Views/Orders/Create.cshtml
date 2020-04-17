@@ -1,0 +1,119 @@
+﻿@using System.Globalization
+@model HistoricalGiftsShop.Web.ViewModels.Orders.OrderCreateInputModel
+@{
+    this.ViewData["Title"] = "Добавяне на нова поръчка";
+}
+
+<div class="text-center">
+    <h1>@this.ViewData["Title"]</h1>
+</div>
+
+<form method="post" asp-action="Create">
+    <div class="form-group">
+        <label asp-for="FirstName"></label>
+        <input asp-for="FirstName" class="form-control">
+        <span asp-validation-for="FirstName" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="LastName"></label>
+        <input asp-for="LastName" class="form-control">
+        <span asp-validation-for="LastName" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Email"></label>
+        <input asp-for="Email" class="form-control">
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Phone"></label>
+        <input asp-for="Phone" class="form-control">
+        <span asp-validation-for="Phone" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Address"></label>
+        <textarea asp-for="Address" class="form-control"></textarea>
+        <span asp-validation-for="Address" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Country"></label>
+        <input asp-for="Country" class="form-control">
+        <span asp-validation-for="Country" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="City"></label>
+        <input asp-for="City" class="form-control">
+        <span asp-validation-for="City" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="PaymentType"></label>
+        <input asp-for="PaymentType" class="form-control" readonly>
+    </div>
+    <div class="form-group">
+        <label asp-for="ZipCode"></label>
+        <input asp-for="ZipCode" class="form-control">
+        <span asp-validation-for="ZipCode" class="text-danger"></span>
+    </div>
+
+
+    <table class="table-bordered w-100">
+        <thead class="thead-light">
+            <tr>
+                <th scope="col" class="text-center">Продукт</th>
+                <th scope="col" class="text-center">Количество</th>
+                <th scope="col" class="text-right">Цена</th>
+                <th scope="col" class="text-right">Общо</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.OrderDetails)
+            {
+                <tr>
+                    <td class="text-center">
+                        <span>@item.ProductName</span>
+                    </td>
+                    <td class="text-center">
+                        <span id="itemAmount">@item.Amount</span>
+                    </td>
+                    <td class="text-right">
+                        @item.Price.ToString("c", CultureInfo.CreateSpecificCulture("bg-BG"))
+                    </td>
+                    <td class="text-right">
+                        @((item.Amount * item.Price).ToString("c", CultureInfo.CreateSpecificCulture("bg-BG")))
+                    </td>
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="3" class="text-right">Общо:</td>
+                <td class="text-right">
+                    <label asp-for="OrderTotal">@(Model.OrderTotal.ToString("c", CultureInfo.CreateSpecificCulture("bg-BG")))</label>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+    <input type="hidden" value="@Model.OrderTotal" asp-for="OrderTotal" />
+    <hr />
+    <div class="text-right" style="float:right">
+        <div class="btn-group ">
+            <input type="submit" name="submit" class="btn btn-info btn-md" value="Направи поръчка">
+        </div>
+    </div>
+    <div>
+        <a href="#" class="btn btn-primary" onclick="returnToShop()">
+            Обратно в магазина
+        </a>
+    </div>
+</form>
+
+
+@section Scripts
+{
+    <script>
+        function returnToShop() {
+            window.location.href = '@Url.Action("Index", "Home")';;
+    }
+
+    </script>
+}
+
