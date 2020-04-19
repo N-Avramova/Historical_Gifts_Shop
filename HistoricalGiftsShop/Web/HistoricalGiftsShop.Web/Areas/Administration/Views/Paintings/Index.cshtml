@@ -1,0 +1,78 @@
+﻿@using HistoricalGiftsShop.Data.Models;
+@model HistoricalGiftsShop.Web.ViewModels.Administration.Paintings.PaintingIndexViewModel
+@{
+    this.ViewData["Title"] = "Картини";
+}
+
+<div class="text-center">
+    <h1>@this.ViewData["Title"]</h1>
+</div>
+
+<div class="float-right">
+    <a class="btn btn-info" asp-action="Index" asp-area="Administration" asp-controller="Dashboard">Назад</a>
+    <a class="btn btn-info" asp-action="Create" asp-area="Administration" asp-controller="Paintings">Създай нова картина</a>
+</div>
+<table class="table-bordered w-100">
+    <thead class="thead-light">
+        <tr>
+            <th scope="col" class="text-center">Име</th>
+            <th scope="col" class="text-center">Автор</th>
+            <th scope="col" class="text-center">Наличност</th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var item in Model.Paintings)
+        {
+            <tr>
+                <td style="width: 50%">
+                    <a asp-action="ById" asp-area="" asp-controller="Paintings" asp-route-id="@item.Id">@item.Name</a>
+                </td>
+                <td>@item.Author</td>
+                <td class="text-center">@item.Stock</td>
+                <td>
+                    <a class="btn btn-info btn-sm" asp-action="Edit" asp-area="Administration" asp-controller="Paintings" asp-route-id="@item.Id">Редактирай</a>
+                </td>
+                <td>
+
+                    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#deleteModal">Изтрий</button>
+                    <input type="hidden" id="deleteId" value="@item.Id" />
+                </td>
+            </tr>
+
+        }
+    </tbody>
+</table>
+
+<!-- Modal -->
+<div id="deleteModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Внимание</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    Сигурни ли сте, че искате да изтриете избраната картина?
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Затвори</button>
+                <button type="button" class="btn btn-primary" id="confirm-delete-button">Потвърди</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script>
+        $('#deleteModal #confirm-delete-button').click(function (event) {
+            $('#deleteModal').hide();
+            window.location.href = '@Url.Action("Delete", "Paintings")?id=' + $("#deleteId").val();
+        });
+    </script>
+}

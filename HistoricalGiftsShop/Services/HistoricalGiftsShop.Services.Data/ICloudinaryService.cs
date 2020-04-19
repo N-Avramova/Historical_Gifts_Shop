@@ -11,5 +11,7 @@
     public interface ICloudinaryService
     {
         Task<List<string>> UploadAsync(ICollection<IFormFile> files);
+
+        Task DeleteImageAsync(string imageUrl);
     }
 }

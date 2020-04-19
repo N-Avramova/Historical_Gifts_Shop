@@ -10,5 +10,9 @@
         Task CreateAsync(string paintingId, bool coverImage, string imageUrl);
 
         IEnumerable<T> GetByPaintingId<T>(string id);
+
+        Task UpdateAsync(string paintingId, string newCoverImageUrl);
+
+        Task DeleteAsync(string painitngId, string deleteImageUrl);
     }
 }

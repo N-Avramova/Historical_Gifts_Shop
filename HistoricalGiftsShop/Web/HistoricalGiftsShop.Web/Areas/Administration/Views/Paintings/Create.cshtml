@@ -1,16 +1,8 @@
 ﻿@using HistoricalGiftsShop.Data.Models;
-@model HistoricalGiftsShop.Web.ViewModels.Paintings.PaintingCreateInputModel
+@model HistoricalGiftsShop.Web.ViewModels.Administration.Paintings.PaintingCreateInputModel
 @{
     this.ViewData["Title"] = "Добавяне на нова картина";
 }
-
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Начало</a></li>
-            <li class="breadcrumb-item"><a href="@Model.Category.Url">@Model.Category.Name</a></li>
-            <li class="breadcrumb-item active" aria-current="page">@this.ViewData["Title"]</li>
-        </ol>
-    </nav>
 
 <div class="text-center">
     <h1>@this.ViewData["Title"]</h1>
@@ -47,7 +39,7 @@
         <select asp-for="Paint" asp-items="Html.GetEnumSelectList<PaintingType>()" class="form-control">
         </select>
         <span asp-validation-for="Paint" class="text-danger"></span>
-    </div> 
+    </div>
     <div class="form-group">
         <label asp-for="Code"></label>
         <input asp-for="Code" class="form-control">
@@ -69,15 +61,16 @@
         <span asp-validation-for="Height" class="text-danger"></span>
     </div>
     <div class="form-group">
-            <label asp-for="CoverImageUrl"></label>
-            <input id="imageUrl" type="file" accept="image/*" asp-for="CoverImageUrl" class="form-control">
-            <span asp-validation-for="CoverImageUrl" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="AdditionalImageUrls"></label>
-            <input id="imageUrls" type="file" accept="image/*" asp-for="AdditionalImageUrls" class="form-control" multiple>
-        </div>
+        <label asp-for="CoverImageUrl"></label>
+        <input id="imageUrl" type="file" accept="image/*" asp-for="CoverImageUrl" class="form-control">
+        <span asp-validation-for="CoverImageUrl" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="AdditionalImageUrls"></label>
+        <input id="imageUrls" type="file" accept="image/*" asp-for="AdditionalImageUrls" class="form-control" multiple>
+    </div>
     <input type="hidden" value="@Model.Category.Id" asp-for="CategoryId" />
     <hr />
     <input type="submit" class="btn btn-primary" value="Create" />
+    <a class="btn btn-primary" asp-action="Index" asp-area="Administration" asp-controller="Paintings" >Cancel</a>
 </form>

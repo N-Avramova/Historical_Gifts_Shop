@@ -1,0 +1,189 @@
+﻿@using HistoricalGiftsShop.Data.Models;
+@model HistoricalGiftsShop.Web.ViewModels.Administration.Paintings.PaintingEditModel
+@{
+    this.ViewData["Title"] = "Редактиране";
+}
+
+<div class="text-center">
+    <h1>@this.ViewData["Title"]</h1>
+</div>
+
+<h5>Редактиране на основната информация</h5>
+<form method="post" asp-action="Edit" enctype="multipart/form-data">
+    <div class="form-group">
+        <label asp-for="Name"></label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Description"></label>
+        <textarea asp-for="Description" class="form-control"></textarea>
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Author"></label>
+        <input asp-for="Author" class="form-control">
+        <span asp-validation-for="Author" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Stock"></label>
+        <input type="number" min="0" asp-for="Stock" class="form-control">
+        <span asp-validation-for="Stock" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Price"></label>
+        <input asp-for="Price" class="form-control">
+        <span asp-validation-for="Price" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Paint"></label>
+        <select asp-for="Paint" asp-items="Html.GetEnumSelectList<PaintingType>()" class="form-control">
+        </select>
+        <span asp-validation-for="Paint" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Code"></label>
+        <input asp-for="Code" class="form-control">
+        <span asp-validation-for="Code" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Length"></label>
+        <input type="number" min="0" asp-for="Length" class="form-control">
+        <span asp-validation-for="Length" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Width"></label>
+        <input type="number" min="0" asp-for="Width" class="form-control">
+        <span asp-validation-for="Width" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Height"></label>
+        <input type="number" min="0" asp-for="Height" class="form-control">
+        <span asp-validation-for="Height" class="text-danger"></span>
+    </div>
+    <input type="hidden" value="@Model.Category.Id" asp-for="CategoryId" />
+    <hr />
+    <input type="submit" class="btn btn-primary" value="Edit" />
+    <a class="btn btn-primary" asp-action="Index" asp-area="Administration" asp-controller="Paintings">Cancel</a>
+</form>
+<br />
+<h5>Редактиране на снимките към продукта</h5>
+<form method="post" id="changeImages" asp-action="ChangeCoverImage" enctype="multipart/form-data">
+    <div>
+        <table class="table-bordered w-100">
+            <thead class="thead-light">
+                <tr>
+                    <th scope="col">Cover image</th>
+                    <th scope="col" class="text-center">Картина</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.ImageUrls)
+                {
+                    <tr>
+                        <td>
+                            <input readonly type="checkbox" id="Cover_@item.Id" checked="@item.CoverImage" onclick="return false;" />
+                        </td>
+                        <td style="width: 50%">
+                            <img src="@item.ImageUrl" alt="@Model.Name" width="100" height="100">
+                        </td>
+                        <td>
+                            @if (@item.CoverImage)
+                            {
+                                <div id="divInfo">
+                                </div>
+                                <div class="d-inline-block">
+                                    <label asp-for="CoverImageUrl"></label>
+                                    <input id="imageUrl" type="file" accept="image/*" asp-for="CoverImageUrl" class="form-control">
+                                    <span asp-validation-for="CoverImageUrl" class="text-danger"></span>
+                                </div>
+                                <button type="submit" value="change">Промени</button>
+                            }
+                            else
+                            {
+                                <button type="button" class="btn btn-info" data-toggle="modal" data-target="#deleteModal">Изтрий</button>
+                            }
+                            <input type="hidden" id="deleteImageUrl" asp-for="ImageUrlForDelete" value="@item.ImageUrl" />
+                        </td>
+                    </tr>
+
+                }
+                <tr>
+                    <td colspan="3">
+                        <div id="divInfoAddImg">
+                        </div>
+                        <div class="d-inline-block">
+                            <label asp-for="AdditionalImageUrls"></label>
+                            <input id="imageUrls" type="file" accept="image/*" asp-for="AdditionalImageUrls" class="form-control" multiple>
+                            <button type="submit" value="add">Добави</button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+            <tfoot>
+
+            </tfoot>
+        </table>
+    </div>
+    <input type="hidden" id="actionType" asp-for="ActionType" />
+    <input type="hidden" asp-for="Id" value="@Model.Id" />
+</form>
+
+<!-- Modal -->
+<div id="deleteModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Внимание</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    Сигурни ли сте, че искате да изтриете избраната снимка?
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Затвори</button>
+                <button type="button" class="btn btn-primary" id="confirm-delete-button">Потвърди</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script>
+        $("#changeImages button").click(function(ev){
+            $("#divInfo").html('');
+            $("#divInfo").removeClass("alert alert-success");            
+            $("#divInfoAddImg").html('');
+            $("#divInfoAddImg").removeClass("alert alert-success");
+            if ($(this).attr("value") === "change") {
+                if ($("#imageUrl").val() === "") {
+                    $("#divInfo").html('Изберете нова снимка.');
+                    $("#divInfo").addClass("alert alert-success");
+                    ev.preventDefault();
+                }
+                $('#actionType').val('change');
+            }
+            else if ($(this).attr("value") === "add") {
+                if ($("#imageUrls").val() === "") {
+                    $("#divInfoAddImg").html('Изберете поне една снимка.');
+                    $("#divInfoAddImg").addClass("alert alert-success");
+                    ev.preventDefault();
+                }
+                $('#actionType').val('add');
+            }
+            else {
+                ev.preventDefault();  // cancel form submission
+            }
+        });
+
+        $('#deleteModal #confirm-delete-button').click(function (event) {
+            $('#deleteModal').hide();
+            $('#actionType').val('delete');
+            $("#changeImages").submit();
+        });
+    </script>
+}

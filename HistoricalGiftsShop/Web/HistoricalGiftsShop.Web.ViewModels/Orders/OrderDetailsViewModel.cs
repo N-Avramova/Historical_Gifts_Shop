@@ -32,7 +32,7 @@
         {
             get
             {
-                return this.Painting != null ? this.Painting.Name : this.Book.Title;
+                return this.Painting != null ? this.Painting.Name : this.Book?.Title;
             }
         }
 

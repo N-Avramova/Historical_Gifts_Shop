@@ -47,5 +47,16 @@
 
             return resultUrls;
         }
+
+        public async Task DeleteImageAsync(string imageUrl)
+        {
+            var deletionParams = new DeletionParams(imageUrl)
+            {
+                PublicId = imageUrl,
+                ResourceType = ResourceType.Image,
+            };
+
+            await this.cloudinary.DestroyAsync(deletionParams);
+        }
     }
 }

@@ -25,6 +25,7 @@
             {
                 Name = name,
                 Description = description,
+                Author = author,
                 CategoryId = categoryId,
                 Stock = stock,
                 Price = price,
@@ -38,6 +39,41 @@
             await this.paintingsRepository.AddAsync(painting);
             await this.paintingsRepository.SaveChangesAsync();
             return painting.Id;
+        }
+
+        public async Task DeleteByIdAsync(string id)
+        {
+            var painting = this.paintingsRepository.All().Where(x => x.Id == id).FirstOrDefault();
+            this.paintingsRepository.Delete(painting);
+            await this.paintingsRepository.SaveChangesAsync();
+        }
+
+        public async Task EditAsync(string id, string name, string description, string author, int categoryId, int stock, decimal price, string code, int length, int width, int height, PaintingType paint)
+        {
+            var painting = this.paintingsRepository.All().Where(x => x.Id == id).FirstOrDefault();
+
+            if (painting != null)
+            {
+                painting.Name = name;
+                painting.Description = description;
+                painting.Author = author;
+                painting.CategoryId = categoryId;
+                painting.Stock = stock;
+                painting.Price = price;
+                painting.Code = code;
+                painting.Length = length;
+                painting.Width = width;
+                painting.Height = height;
+                painting.Paint = paint;
+
+                this.paintingsRepository.Update(painting);
+                await this.paintingsRepository.SaveChangesAsync();
+            }
+        }
+
+        public IEnumerable<T> GetAll<T>()
+        {
+            return this.paintingsRepository.All().To<T>().ToList();
         }
 
         public T GetById<T>(string id)

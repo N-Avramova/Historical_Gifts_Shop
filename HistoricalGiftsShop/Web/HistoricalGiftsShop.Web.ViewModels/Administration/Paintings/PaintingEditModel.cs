@@ -1,4 +1,4 @@
-﻿namespace HistoricalGiftsShop.Web.ViewModels.Paintings
+﻿namespace HistoricalGiftsShop.Web.ViewModels.Administration.Paintings
 {
     using System;
     using System.Collections.Generic;
@@ -9,10 +9,13 @@
     using HistoricalGiftsShop.Data.Models;
     using HistoricalGiftsShop.Services.Mapping;
     using HistoricalGiftsShop.Web.ViewModels.Categories;
+    using HistoricalGiftsShop.Web.ViewModels.Paintings;
     using Microsoft.AspNetCore.Http;
 
-    public class PaintingCreateInputModel : IMapTo<Painting>
+    public class PaintingEditModel : IMapTo<Painting>, IMapFrom<Painting>
     {
+        public string Id { get; set; }
+
         [Required]
         [Display(Name = "Наименование на картината")]
         public string Name { get; set; }
@@ -40,6 +43,7 @@
         [Required]
         [RegularExpression(@"^(0|[1-9]\d*)(\.\d+)?$", ErrorMessage = "Моля, въведете цената в един от следните формати: 15 или 15.35")]
         [Display(Name = "Цена (лв)")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:###.###}")]
         public decimal Price { get; set; }
 
         [Required]
@@ -69,11 +73,15 @@
         [Display(Name = "Използван тип боя")]
         public PaintingType Paint { get; set; }
 
-        [Required]
-        [Display(Name = "Основна снимка")]
         public IFormFile CoverImageUrl { get; set; }
 
         [Display(Name = "Допълнителни снимки")]
         public IEnumerable<IFormFile> AdditionalImageUrls { get; set; }
+
+        public IEnumerable<ImageViewModel> ImageUrls { get; set; }
+
+        public string ImageUrlForDelete { get; set; }
+
+        public string ActionType { get; set; }
     }
 }

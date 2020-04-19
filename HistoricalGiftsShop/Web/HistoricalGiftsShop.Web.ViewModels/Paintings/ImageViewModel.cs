@@ -9,6 +9,8 @@
 
     public class ImageViewModel : IMapFrom<Images>
     {
+        public int Id { get; set; }
+
         public bool CoverImage { get; set; }
 
         public string ImageUrl { get; set; }
