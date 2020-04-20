@@ -22,6 +22,10 @@
 
         public string Url => $"/c/{this.Name.Replace(' ', '-')}";
 
+        public int CurrentPage { get; set; }
+
+        public int PagesCount { get; set; }
+
         public IEnumerable<ProductInCategoryViewModel> Paintings { get; set; }
 
         public IEnumerable<ProductInCategoryViewModel> Books { get; set; }

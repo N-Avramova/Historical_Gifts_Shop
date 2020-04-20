@@ -83,6 +83,23 @@
             return painting;
         }
 
+        public IEnumerable<T> GetPaintingsByPage<T>(int? take = null, int skip = 0)
+        {
+            var query = this.paintingsRepository.All()
+                .OrderByDescending(x => x.CreatedOn).Skip(skip);
+            if (take.HasValue)
+            {
+                query = query.Take(take.Value);
+            }
+
+            return query.To<T>().ToList();
+        }
+
+        public int GetPaintingsCount()
+        {
+            return this.paintingsRepository.All().Count();
+        }
+
         public async void UpdateStockAsync(string id, int quantity)
         {
             var painting = this.paintingsRepository.All().Where(x => x.Id == id).FirstOrDefault();

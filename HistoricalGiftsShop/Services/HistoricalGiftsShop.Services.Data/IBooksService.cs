@@ -1,6 +1,7 @@
 ﻿namespace HistoricalGiftsShop.Services.Data
 {
     using System;
+    using System.Collections.Generic;
     using System.Threading.Tasks;
 
     public interface IBooksService
@@ -10,5 +11,9 @@
         T GetById<T>(int id);
 
         void UpdateStockAsync(int id, int quantity);
+
+        IEnumerable<T> GetBooksByPage<T>(int? take = null, int skip = 0);
+
+        int GetBooksCount();
     }
 }

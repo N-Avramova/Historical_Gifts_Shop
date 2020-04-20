@@ -1,6 +1,7 @@
 ﻿namespace HistoricalGiftsShop.Services.Data
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -39,6 +40,23 @@
             await this.booksRepository.AddAsync(book);
             await this.booksRepository.SaveChangesAsync();
             return book.Id;
+        }
+
+        public IEnumerable<T> GetBooksByPage<T>(int? take = null, int skip = 0)
+        {
+            var query = this.booksRepository.All()
+               .OrderByDescending(x => x.CreatedOn).Skip(skip);
+            if (take.HasValue)
+            {
+                query = query.Take(take.Value);
+            }
+
+            return query.To<T>().ToList();
+        }
+
+        public int GetBooksCount()
+        {
+            return this.booksRepository.All().Count();
         }
 
         public T GetById<T>(int id)
