@@ -22,7 +22,7 @@
             this.orderDetailsRepository = orderDetailsRepository;
         }
 
-        public async Task<int> CreateOrderAsync(string firstName, string lastName, string email, string phone, string address, string country, string city, string userId, decimal orderTotal)
+        public async Task<int> CreateOrderAsync(string firstName, string lastName, string email, string phone, string address, string country, string city, string userId, PaymentType paymentType, decimal orderTotal)
         {
             var order = new Order
             {
@@ -34,6 +34,7 @@
                 Country = country,
                 City = city,
                 UserId = userId,
+                PaymentType = paymentType,
                 OrderTotal = orderTotal,
             };
 

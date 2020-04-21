@@ -1,4 +1,6 @@
 ﻿@using System.Globalization
+@using HistoricalGiftsShop.Data.Models;
+@using HistoricalGiftsShop.Common;
 @model HistoricalGiftsShop.Web.ViewModels.Orders.OrderCreateInputModel
 @{
     this.ViewData["Title"] = "Добавяне на нова поръчка";
@@ -45,16 +47,24 @@
         <span asp-validation-for="City" class="text-danger"></span>
     </div>
     <div class="form-group">
-        <label asp-for="PaymentType"></label>
-        <input asp-for="PaymentType" class="form-control" readonly>
-    </div>
-    <div class="form-group">
         <label asp-for="ZipCode"></label>
         <input asp-for="ZipCode" class="form-control">
         <span asp-validation-for="ZipCode" class="text-danger"></span>
     </div>
-
-
+    <div class="form-group col-sm-6">
+        <label asp-for="PaymentType"></label>
+        <div class="payment-methods">
+            @foreach (PaymentType type in Enum.GetValues(typeof(PaymentType)))
+            {
+                <div class="radio">
+                    <label>
+                        <input asp-for="PaymentType" type="radio" value="@type" />
+                        <span>@EnumExtensions.GetDisplayName(type)</span>
+                    </label>
+                </div>
+            }
+        </div>
+    </div>
     <table class="table-bordered w-100">
         <thead class="thead-light">
             <tr>

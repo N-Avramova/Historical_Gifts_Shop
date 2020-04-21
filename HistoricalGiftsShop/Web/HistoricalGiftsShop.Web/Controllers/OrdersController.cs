@@ -78,7 +78,7 @@
             var user = await this.userManager.GetUserAsync(this.User);
             string userId = user?.Id;
 
-            var orderId = await this.ordersService.CreateOrderAsync(input.FirstName, input.LastName, input.Email, input.Phone, input.Address, input.Country, input.City, userId, input.OrderTotal);
+            var orderId = await this.ordersService.CreateOrderAsync(input.FirstName, input.LastName, input.Email, input.Phone, input.Address, input.Country, input.City, userId, input.PaymentType, input.OrderTotal);
 
             foreach (OrderDetailsViewModel item in input.OrderDetails)
             {

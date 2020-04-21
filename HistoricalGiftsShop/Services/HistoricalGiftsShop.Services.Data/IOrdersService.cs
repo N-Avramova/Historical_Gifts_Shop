@@ -9,7 +9,7 @@
 
     public interface IOrdersService
     {
-        Task<int> CreateOrderAsync(string firstName, string lastName, string email, string phone, string address, string country, string city, string userID, decimal orderTotal);
+        Task<int> CreateOrderAsync(string firstName, string lastName, string email, string phone, string address, string country, string city, string userID, PaymentType payment, decimal orderTotal);
 
         Task CreateOrderDetailsAsync(int orderId, Book bookId, Painting paintingId, int amount, decimal price);
 

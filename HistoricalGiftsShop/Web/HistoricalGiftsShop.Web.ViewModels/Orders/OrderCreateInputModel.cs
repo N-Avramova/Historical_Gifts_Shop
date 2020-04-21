@@ -3,11 +3,11 @@
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-    using System.Globalization;
-    using System.Text;
 
+    using HistoricalGiftsShop.Common;
     using HistoricalGiftsShop.Data.Models;
     using HistoricalGiftsShop.Services.Mapping;
+    using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.ModelBinding;
 
     public class OrderCreateInputModel : IMapFrom<Order>, IMapFrom<ApplicationUser>, IMapTo<Order>
@@ -53,13 +53,10 @@
         [StringLength(50)]
         public string City { get; set; }
 
-        public string PaymentType
-        {
-            get
-            {
-                return "Наложен платеж.";
-            }
-        }
+        [Display(Name = "Начин на плащане:")]
+        [Required(ErrorMessage = "Изберете метод на плащане")]
+        [BindProperty]
+        public PaymentType PaymentType { get; set; }
 
         public decimal OrderTotal { get; set; }
 
