@@ -42,6 +42,43 @@
             return book.Id;
         }
 
+        public async Task DeleteByIdAsync(int id)
+        {
+            var book = this.booksRepository.All().Where(x => x.Id == id).FirstOrDefault();
+            this.booksRepository.Delete(book);
+            await this.booksRepository.SaveChangesAsync();
+        }
+
+        public async Task EditAsync(int id, string title, string description, string author, string publisher, DateTime yearOfPublisher, int categoryId, int stock, decimal price, int bookCoverTypeId, int? pages, string language, string isbn, string imageUrl)
+        {
+            var book = this.booksRepository.All().Where(x => x.Id == id).FirstOrDefault();
+
+            if (book != null)
+            {
+                book.Title = title;
+                book.Description = description;
+                book.Author = author;
+                book.Publisher = publisher;
+                book.YearOfPublisher = yearOfPublisher;
+                book.CategoryId = categoryId;
+                book.Stock = stock;
+                book.Price = price;
+                book.BookCoverTypeId = bookCoverTypeId;
+                book.Pages = pages;
+                book.Language = language;
+                book.ISBN = isbn;
+                book.ImageUrl = imageUrl;
+
+                this.booksRepository.Update(book);
+                await this.booksRepository.SaveChangesAsync();
+            }
+        }
+
+        public IEnumerable<T> GetAll<T>()
+        {
+            return this.booksRepository.All().To<T>().ToList();
+        }
+
         public IEnumerable<T> GetBooksByPage<T>(int? take = null, int skip = 0)
         {
             var query = this.booksRepository.All()

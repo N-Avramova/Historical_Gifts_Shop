@@ -1,0 +1,106 @@
+﻿@model HistoricalGiftsShop.Web.ViewModels.Administration.Books.BookEditModel
+@{
+    this.ViewData["Title"] = "Редактиране";
+    var bookCoverTypes = Model.BookCoverTypes.Select(x => new SelectListItem(x.Value, x.Id.ToString()));
+    var selectListYears = Enumerable.Range(2000, DateTime.Now.Year - 1999).Reverse().Select(x => new SelectListItem(x.ToString(), x.ToString()));
+}
+
+<div class="text-center">
+    <h1>@this.ViewData["Title"]</h1>
+</div>
+
+<form method="post" asp-action="Edit" enctype="multipart/form-data">
+    <div class="form-group">
+        <label asp-for="Title"></label>
+        <input asp-for="Title" class="form-control" />
+        <span asp-validation-for="Title" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Description"></label>
+        <textarea asp-for="Description" class="form-control"></textarea>
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Author"></label>
+        <input asp-for="Author" class="form-control">
+        <span asp-validation-for="Author" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Publisher"></label>
+        <input asp-for="Publisher" class="form-control">
+        <span asp-validation-for="Publisher" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Year"></label>
+        <select asp-for="Year" asp-items="selectListYears" class="form-control"></select>
+        <span asp-validation-for="Year" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Stock"></label>
+        <input type="number" min="0" asp-for="Stock" class="form-control">
+        <span asp-validation-for="Stock" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Price"></label>
+        <input asp-for="Price" class="form-control">
+        <span asp-validation-for="Price" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="BookCoverTypeId"></label>
+        <select id="bookCoverTypes" asp-for="BookCoverTypeId" asp-items="bookCoverTypes" class="form-control"></select>
+        <span asp-validation-for="BookCoverTypeId" class="text-danger"></span>
+        @foreach (var item in Model.BookCoverTypes)
+        {
+            <input type="hidden" id="BookCoverType_@(item.Id)" value="@item.HavePages.ToString()" />
+        }
+    </div>
+    <div id="divPages" class="form-group">
+        <label asp-for="Pages"></label>
+        <input id="pages" type="number" min="0" asp-for="Pages" class="form-control">
+    </div>
+    <div class="form-group">
+        <label asp-for="Language"></label>
+        <input asp-for="Language" class="form-control">
+        <span asp-validation-for="Language" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="ISBN"></label>
+        <input asp-for="ISBN" class="form-control">
+        <span asp-validation-for="ISBN" class="text-danger"></span>
+    </div>
+    <div>
+        <label asp-for="ImageUrl"></label>
+        <img src="@Model.ImageUrl" alt="@Model.Title" width="100" height="100"><br />
+        <input type="hidden" asp-for="ImageUrl" value="@Model.ImageUrl" />
+    </div>
+    <div class="form-group">       
+        <label asp-for="ChangedImageUrl"></label>
+        <input id="imageUrl" type="file" accept="image/*" asp-for="ChangedImageUrl" class="form-control">
+        <span asp-validation-for="ChangedImageUrl" class="text-danger"></span>
+    </div> 
+    <input type="hidden" value="@Model.Category.Id" asp-for="CategoryId" />
+    <hr />
+    <input type="submit" class="btn btn-primary" value="Edit" />
+    <a class="btn btn-primary" asp-action="Index" asp-area="Administration" asp-controller="Books">Cancel</a>
+</form>
+
+@section Scripts
+{
+    <script>
+        $(document).ready(function () {
+            if ($("#pages").val() === "") {
+                $("#divPages").hide();
+            }            
+        });
+        $("#bookCoverTypes").change((function () {
+            var itemValue = $("#bookCoverTypes").val();
+            var bookCoverTypeValue = $("#BookCoverType_" + itemValue).val();
+            if (bookCoverTypeValue.toLowerCase() === 'true') {
+                $("#divPages").show();
+            }
+            else {
+                $("#divPages").hide();
+            };
+        }));
+    </script>
+}

@@ -1,7 +1,6 @@
-﻿@using HistoricalGiftsShop.Data.Models;
-@model HistoricalGiftsShop.Web.ViewModels.Administration.Paintings.PaintingIndexViewModel
+﻿@model HistoricalGiftsShop.Web.ViewModels.Administration.Books.BookIndexViewModel
 @{
-    this.ViewData["Title"] = "Картини";
+    this.ViewData["Title"] = "Книги";
 }
 
 <div class="text-center">
@@ -10,7 +9,7 @@
 
 <div class="float-right">
     <a class="btn btn-info" asp-action="Index" asp-area="Administration" asp-controller="Dashboard">Назад</a>
-    <a class="btn btn-info" asp-action="Create" asp-area="Administration" asp-controller="Paintings">Създай нова картина</a>
+    <a class="btn btn-info" asp-action="Create" asp-area="Administration" asp-controller="Books">Създай нова книга</a>
 </div>
 <table class="table-bordered w-100">
     <thead class="thead-light">
@@ -24,22 +23,22 @@
     </thead>
 
     <tbody>
-        @foreach (var item in Model.Paintings)
+        @foreach (var item in Model.Books)
         {
             <tr>
                 <td style="width: 50%">
-                    <a asp-action="ById" asp-area="" asp-controller="Paintings" asp-route-id="@item.Id">@item.Name</a>
+                    <a asp-action="ById" asp-area="" asp-controller="Books" asp-route-id="@item.Id">@item.Title</a>
                 </td>
                 <td>@item.Author</td>
                 <td class="text-center">@item.Stock</td>
                 <td>
-                    <a class="btn btn-info btn-sm" asp-action="Edit" asp-area="Administration" asp-controller="Paintings" asp-route-id="@item.Id">Редактирай</a>
+                    <a class="btn btn-info btn-sm" asp-action="Edit" asp-area="Administration" asp-controller="Books" asp-route-id="@item.Id">Редактирай</a>
                 </td>
                 <td>
-
                     <button type="button" class="btn btn-info" data-toggle="modal" data-target="#deleteModal" data-id="@item.Id">Изтрий</button>                    
                 </td>
             </tr>
+
         }
     </tbody>
 </table>
@@ -54,7 +53,7 @@
             </div>
             <div class="modal-body">
                 <p>
-                    Сигурни ли сте, че искате да изтриете избраната картина?
+                    Сигурни ли сте, че искате да изтриете избраната книга?
                 </p>
                 <input type="hidden" name="deleteId" id="deleteId" value="" />
             </div>
@@ -68,7 +67,7 @@
 
 @section Scripts
 {
-    <script>
+    <script>  
         $('#deleteModal').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget); // Button that triggered the modal
             var id = button.data('id'); // Extract info from data-* attributes           
@@ -76,9 +75,10 @@
             modal.find('#deleteId').val(id);
         });
 
-        $('#deleteModal #confirm-delete-button').click(function (event) {
+        $('#deleteModal #confirm-delete-button').click(function (event) {                      
             $('#deleteModal').hide();
-            window.location.href = '@Url.Action("Delete", "Paintings")?id=' + $("#deleteId").val();
+            window.location.href = '@Url.Action("Delete", "Books")?id=' + $("#deleteId").val();
         });
     </script>
 }
+

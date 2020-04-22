@@ -41,9 +41,10 @@
         public int Stock { get; set; }
 
         [Required]
-        [RegularExpression(@"^(0|[1-9]\d*)(\.\d+)?$", ErrorMessage = "Моля, въведете цената в един от следните формати: 15 или 15.35")]
+        [RegularExpression(@"^(0|[1-9]\d*)$", ErrorMessage = "Моля, въведете цената в следния вид: 12")]
         [Display(Name = "Цена (лв)")]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:###.###}")]
+        [DataType(DataType.Currency)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:###}")]
         public decimal Price { get; set; }
 
         [Required]
