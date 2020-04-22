@@ -32,13 +32,13 @@
                 Description = "Исторически книги",
                 ImageUrl = "https://tokorazisto.files.wordpress.com/2013/09/1-tohol_small1.jpg",
             });
-            categories.Add(new Category
-            {
-                Name = "Керамика",
-                Title = "Керамика",
-                Description = "Българска керамика",
-                ImageUrl = "https://lh3.googleusercontent.com/proxy/owyruLO893iW_xtukN-Jhb16hDDxfNzU_3ycWqgqOWhGp-XSCe4X2hFFJIqPU9LBeXGfgBYnRXO2kYg7no5DKsvMr7nqXSi7sUbLGDYXJC6LsMm7FnWxrV2lTBa4yyP4adrk4tuW",
-            });
+            //categories.Add(new Category
+            //{
+            //    Name = "Керамика",
+            //    Title = "Керамика",
+            //    Description = "Българска керамика",
+            //    ImageUrl = "https://lh3.googleusercontent.com/proxy/owyruLO893iW_xtukN-Jhb16hDDxfNzU_3ycWqgqOWhGp-XSCe4X2hFFJIqPU9LBeXGfgBYnRXO2kYg7no5DKsvMr7nqXSi7sUbLGDYXJC6LsMm7FnWxrV2lTBa4yyP4adrk4tuW",
+            //});
 
             await dbContext.Categories.AddRangeAsync(categories);
         }

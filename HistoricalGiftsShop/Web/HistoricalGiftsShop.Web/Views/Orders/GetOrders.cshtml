@@ -4,42 +4,49 @@
     this.ViewData["Title"] = "Поръчки";
 }
 
-
-@foreach (var item in Model.Orders)
+@if (Model.Orders.Any())
 {
-    <span>Поръчка номер <b>@item.Id</b></span>
-    <span>създадена <b> @item.CreatedOn</b> </span>
-    <span>от<b> @item.FirstName @item.LastName</b></span>
-    <br />
-    <span>Телефон @item.Phone,</span>
-    <span>Държава @item.Country,</span>
-    <span>Град @item.City,</span>
-    <span>Адрес @item.Address</span>
-    <br />
 
-    <b>Детайли за поръчката:</b>
-    <table class="table-bordered w-100">
-        <thead class="thead-light">
-            <tr>
-                <th scope="col" class="text-center">Име</th>
-                <th scope="col" class="text-center">Количество</th>
-                <th scope="col" class="text-center">Цена</th>
-            </tr>
-        </thead>
+    foreach (var item in Model.Orders)
+    {
+        <span>Поръчка номер <b>@item.Id</b></span>
+        <span>създадена <b> @item.CreatedOn</b> </span>
+        <span>от<b> @item.FirstName @item.LastName</b></span>
+        <br />
+        <span>Телефон @item.Phone,</span>
+        <span>Държава @item.Country,</span>
+        <span>Град @item.City,</span>
+        <span>Адрес @item.Address</span>
+        <br />
 
-        <tbody>
-            @foreach (var orderItem in item.OrderDetails)
-            {
+        <b>Детайли за поръчката:</b>
+        <table class="table-bordered w-100">
+            <thead class="thead-light">
                 <tr>
-                    <td style="width: 50%">@orderItem.NameByProduct</td>
-                    <td class="text-right">@orderItem.Amount.ToString("c", CultureInfo.CreateSpecificCulture("bg-BG"))</td>
-                    <td class="text-right">@orderItem.Price.ToString("c", CultureInfo.CreateSpecificCulture("bg-BG"))</td>
+                    <th scope="col" class="text-center">Име</th>
+                    <th scope="col" class="text-center">Количество</th>
+                    <th scope="col" class="text-center">Цена</th>
                 </tr>
+            </thead>
 
-            }
-        </tbody>
-    </table>
+            <tbody>
+                @foreach (var orderItem in item.OrderDetails)
+                {
+                    <tr>
+                        <td style="width: 50%">@orderItem.NameByProduct</td>
+                        <td class="text-right">@orderItem.Amount.ToString("c", CultureInfo.CreateSpecificCulture("bg-BG"))</td>
+                        <td class="text-right">@orderItem.Price.ToString("c", CultureInfo.CreateSpecificCulture("bg-BG"))</td>
+                    </tr>
 
-    <div class="text-right">Общо: @item.OrderTotal.ToString("c", CultureInfo.CreateSpecificCulture("bg-BG"))</div>
-    <hr />
+                }
+            </tbody>
+        </table>
+
+        <div class="text-right">Общо: @item.OrderTotal.ToString("c", CultureInfo.CreateSpecificCulture("bg-BG"))</div>
+        <hr />
+    }
+}
+else
+{
+    <h5>Нямате направени поръчки</h5>
 }
