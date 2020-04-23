@@ -4,6 +4,7 @@
     using System.Diagnostics;
     using System.Linq;
 
+    using Microsoft.AspNetCore;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Hosting.Server.Features;
     using Microsoft.AspNetCore.Mvc.Testing;
@@ -13,24 +14,12 @@
     public class SeleniumServerFactory<TStartup> : WebApplicationFactory<TStartup>
         where TStartup : class
     {
-        private readonly Process process;
-
         private IWebHost host;
 
         public SeleniumServerFactory()
         {
             this.ClientOptions.BaseAddress = new Uri("https://localhost"); // will follow redirects by default
-
-            this.process = new Process
-                       {
-                           StartInfo = new ProcessStartInfo
-                                       {
-                                           FileName = "selenium-standalone",
-                                           Arguments = "start",
-                                           UseShellExecute = true,
-                                       },
-                       };
-            this.process.Start();
+            this.CreateServer(this.CreateWebHostBuilder());
         }
 
         public string RootUri { get; set; } // Save this use by tests
@@ -46,13 +35,19 @@
             return new TestServer(new WebHostBuilder().UseStartup<FakeStartup>());
         }
 
+        protected override IWebHostBuilder CreateWebHostBuilder()
+        {
+            var builder = WebHost.CreateDefaultBuilder(Array.Empty<string>());
+            builder.UseEnvironment("Development").UseStartup<TStartup>();
+            return builder;
+        }
+
         protected override void Dispose(bool disposing)
         {
             base.Dispose(disposing);
             if (disposing)
             {
-                this.host.Dispose();
-                this.process.CloseMainWindow(); // Be sure to stop Selenium Standalone
+                this.host?.Dispose();
             }
         }
 
