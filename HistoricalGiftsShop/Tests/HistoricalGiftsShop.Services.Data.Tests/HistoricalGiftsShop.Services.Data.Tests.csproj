@@ -29,6 +29,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Data\HistoricalGiftsShop.Data\HistoricalGiftsShop.Data.csproj" />
     <ProjectReference Include="..\..\Services\HistoricalGiftsShop.Services.Data\HistoricalGiftsShop.Services.Data.csproj" />
+    <ProjectReference Include="..\..\Web\HistoricalGiftsShop.Web.ViewModels\HistoricalGiftsShop.Web.ViewModels.csproj" />
   </ItemGroup>
 
 </Project>
