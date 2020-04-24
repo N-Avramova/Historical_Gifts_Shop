@@ -4,7 +4,7 @@
     using System.Collections.Generic;
     using System.Text;
     using System.Threading.Tasks;
-
+    using HistoricalGiftsShop.Common.Enums;
     using HistoricalGiftsShop.Data.Models;
 
     public interface IOrdersService
@@ -18,5 +18,7 @@
 
         // get order details for current order
         IEnumerable<T> GetOrderDetailsByOrderId<T>(int orderId);
+
+        Task UpdateOrderStatusAsync(int orderId, OrderStatusType statusType);
     }
 }

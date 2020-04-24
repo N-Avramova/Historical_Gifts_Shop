@@ -1,12 +1,16 @@
-﻿using HistoricalGiftsShop.Data.Models;
-using HistoricalGiftsShop.Services.Mapping;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace HistoricalGiftsShop.Web.ViewModels.Orders
+﻿namespace HistoricalGiftsShop.Web.ViewModels.Orders
 {
-    public class OrderViewModel : IMapFrom<Order>
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+    using System.Text;
+
+    using AutoMapper;
+    using HistoricalGiftsShop.Common.Enums;
+    using HistoricalGiftsShop.Data.Models;
+    using HistoricalGiftsShop.Services.Mapping;
+
+    public class OrderViewModel : IMapFrom<Order>, IHaveCustomMappings
     {
         public int Id { get; set; }
 
@@ -26,10 +30,25 @@ namespace HistoricalGiftsShop.Web.ViewModels.Orders
 
         public string City { get; set; }
 
+        public PaymentType PaymentType { get; set; }
+
+        [Display(Name = "Статус на поръчката")]
+        public OrderStatusType StatusType { get; set; }
+
+        public int StatusTypeInt { get; set; }
+
         public string UserUserName { get; set; }
 
         public decimal OrderTotal { get; set; }
 
         public IEnumerable<OrderDetailsViewModel> OrderDetails { get; set; }
+
+        public void CreateMappings(IProfileExpression configuration)
+        {
+            configuration.CreateMap<Order, OrderViewModel>()
+                .ForMember(
+                    m => m.StatusTypeInt,
+                    opt => opt.MapFrom(x => (int)x.StatusType));
+        }
     }
 }

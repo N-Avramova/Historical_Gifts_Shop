@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Text;
 
+    using HistoricalGiftsShop.Common.Enums;
     using HistoricalGiftsShop.Data.Common.Models;
 
     public class Order : BaseDeletableModel<int>
@@ -27,7 +28,11 @@
 
         public string City { get; set; }
 
+        public string CourierOffice { get; set; }
+
         public PaymentType PaymentType { get; set; }
+
+        public OrderStatusType StatusType { get; set; }
 
         public string UserId { get; set; }
 

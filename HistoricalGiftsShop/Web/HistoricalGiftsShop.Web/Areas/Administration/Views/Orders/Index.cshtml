@@ -1,0 +1,119 @@
+﻿@using System.Globalization
+@using HistoricalGiftsShop.Common
+@using HistoricalGiftsShop.Common.Enums
+@model HistoricalGiftsShop.Web.ViewModels.Administration.Orders.UsersOrdersViewModel
+@{
+    this.ViewData["Title"] = "Поръчки";
+    var allUsers = Model.AllUsers.Select(x => new SelectListItem(x.UserName, x.Id));
+}
+
+<div class="form-group">
+    <label>Потребители</label>
+    <select id="allUsers" asp-for="UserId" asp-items="allUsers" class="form-control">
+        <option value="-1">Select current user</option>
+    </select>
+</div>
+
+<form id="updateOrderForm" method="post"></form>
+
+@if (Model.Orders != null)
+{
+    @if (Model.Orders.Any())
+    {
+
+        foreach (var item in Model.Orders)
+        {
+            <table class="table-bordered w-100">
+                <tr>
+                    <td>
+                        <span>Поръчка номер <b>@item.Id</b></span>
+                        <span>създадена <b> @item.CreatedOn</b> </span>
+                        <span>от<b> @item.FirstName @item.LastName</b></span>
+                        <br />
+                        <span>Телефон @item.Phone,</span>
+                        <span>Държава @item.Country,</span>
+                        <span>Град @item.City,</span>
+                        <span>Адрес @item.Address</span>
+                    </td>
+                    <td>
+                        <div class="form-group">
+                            <label class="font-weight-bold" asp-for="@item.StatusType"></label>
+                            <div class="input-group">
+                                @foreach (OrderStatusType type in Enum.GetValues(typeof(OrderStatusType)))
+                                {
+                                    <div class="radio">
+                                        <label>
+                                            <input id="Status_@item.Id" name="Status_@item.Id" asp-for="@item.StatusType" type="radio" value="@type" onchange="ChangeStatus('@item.Id', '@type')" />
+                                            <span>@EnumExtensions.GetDisplayName(type)</span>
+                                        </label>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <b>Детайли за поръчката:</b>
+                        <table class="table-bordered w-100">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th scope="col" class="text-center">Име</th>
+                                    <th scope="col" class="text-center">Количество</th>
+                                    <th scope="col" class="text-center">Цена</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                @foreach (var orderItem in item.OrderDetails)
+                                {
+                                    <tr>
+                                        <td style="width: 50%">@orderItem.NameByProduct</td>
+                                        <td class="text-right">@orderItem.Amount.ToString("c", CultureInfo.CreateSpecificCulture("bg-BG"))</td>
+                                        <td class="text-right">@orderItem.Price.ToString("c", CultureInfo.CreateSpecificCulture("bg-BG"))</td>
+                                    </tr>
+
+                                }
+                            </tbody>
+                        </table>
+
+                        <div class="text-right">Общо: @item.OrderTotal.ToString("c", CultureInfo.CreateSpecificCulture("bg-BG"))</div>
+                    </td>
+                </tr>
+            </table>
+            <hr />
+        }
+    }
+    else
+    {
+        <h5>Няма направени поръчки</h5>
+    }
+}
+
+
+@section Scripts
+{
+    <script>
+        $('#allUsers').change(function () {
+            window.location.href = '@Url.Action("IndexChange", "Orders")?id=' + $('#allUsers option:selected').val();
+        });
+
+        function ChangeStatus(itemId, type) {
+            var id = parseInt(itemId);
+            var token = $("#updateOrderForm input[name=__RequestVerificationToken]").val();
+            var json = { Id: id, Type: type };
+            $.ajax({
+                url: "/api/orders",
+                type: "POST",
+                data: JSON.stringify(json),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                headers: { 'X-CSRF-TOKEN': token },
+                success: function (response) {
+
+                }
+            });
+        }
+
+    </script>
+}

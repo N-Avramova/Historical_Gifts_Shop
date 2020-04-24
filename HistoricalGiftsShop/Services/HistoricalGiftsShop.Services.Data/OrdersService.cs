@@ -5,7 +5,7 @@
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
-
+    using HistoricalGiftsShop.Common.Enums;
     using HistoricalGiftsShop.Data.Common.Repositories;
     using HistoricalGiftsShop.Data.Models;
     using HistoricalGiftsShop.Services.Mapping;
@@ -36,6 +36,7 @@
                 UserId = userId,
                 PaymentType = paymentType,
                 OrderTotal = orderTotal,
+                StatusType = OrderStatusType.Created,
             };
 
             await this.ordersRepository.AddAsync(order);
@@ -66,6 +67,14 @@
         public IEnumerable<T> GetOrderDetailsByOrderId<T>(int orderId)
         {
             return this.orderDetailsRepository.All().Include(b => b.Book).Include(p => p.Painting).Where(x => x.OrderId == orderId).To<T>().ToList();
+        }
+
+        public async Task UpdateOrderStatusAsync(int orderId, OrderStatusType statusType)
+        {
+            var order = this.ordersRepository.All().Where(x => x.Id == orderId).FirstOrDefault();
+            order.StatusType = statusType;
+            this.ordersRepository.Update(order);
+            await this.ordersRepository.SaveChangesAsync();
         }
     }
 }
