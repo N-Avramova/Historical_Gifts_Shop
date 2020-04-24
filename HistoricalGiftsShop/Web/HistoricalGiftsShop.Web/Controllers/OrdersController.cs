@@ -85,12 +85,12 @@
                 await this.ordersService.CreateOrderDetailsAsync(orderId, item.Book, item.Painting, item.Amount, item.Price);
                 if (item.Painting != null)
                 {
-                    this.paintingsService.UpdateStockAsync(item.Painting.Id, item.Amount);
+                    await this.paintingsService.UpdateStockAsync(item.Painting.Id, item.Amount);
                 }
 
                 if (item.Book != null)
                 {
-                    this.booksService.UpdateStockAsync(item.Book.Id, item.Amount);
+                    await this.booksService.UpdateStockAsync(item.Book.Id, item.Amount);
                 }
             }
 

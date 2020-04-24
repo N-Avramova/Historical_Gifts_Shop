@@ -11,7 +11,7 @@
 
         T GetById<T>(string id);
 
-        void UpdateStockAsync(string id, int quantity);
+        Task UpdateStockAsync(string id, int quantity);
 
         IEnumerable<T> GetAll<T>();
 

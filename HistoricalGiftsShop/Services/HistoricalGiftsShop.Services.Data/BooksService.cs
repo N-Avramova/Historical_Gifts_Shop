@@ -103,7 +103,7 @@
             return book;
         }
 
-        public async void UpdateStockAsync(int id, int quantity)
+        public async Task UpdateStockAsync(int id, int quantity)
         {
             var book = this.booksRepository.All().Where(x => x.Id == id).FirstOrDefault();
             book.Stock = book.Stock - quantity;

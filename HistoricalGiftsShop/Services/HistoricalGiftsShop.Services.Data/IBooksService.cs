@@ -10,7 +10,7 @@
 
         T GetById<T>(int id);
 
-        void UpdateStockAsync(int id, int quantity);
+        Task UpdateStockAsync(int id, int quantity);
 
         IEnumerable<T> GetAll<T>();
 

@@ -100,7 +100,7 @@
             return this.paintingsRepository.All().Count();
         }
 
-        public async void UpdateStockAsync(string id, int quantity)
+        public async Task UpdateStockAsync(string id, int quantity)
         {
             var painting = this.paintingsRepository.All().Where(x => x.Id == id).FirstOrDefault();
             painting.Stock = painting.Stock - quantity;
