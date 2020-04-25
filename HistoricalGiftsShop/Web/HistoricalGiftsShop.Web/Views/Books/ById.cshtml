@@ -7,7 +7,7 @@
 
 @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
 {
-    <a asp-controller="Books" asp-action="Create" class="breadcrumb float-right">Добавете нова книга</a>
+    <a asp-area="Administration" asp-controller="Books" asp-action="Edit" asp-route-id="@Model.Id" class="breadcrumb float-right">Редактирай</a>
 }
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">

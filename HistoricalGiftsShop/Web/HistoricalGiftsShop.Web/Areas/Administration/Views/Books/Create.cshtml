@@ -5,14 +5,6 @@
     var selectListYears = Enumerable.Range(2000, DateTime.Now.Year - 1999).Reverse().Select(x => new SelectListItem(x.ToString(), x.ToString()));
 }
 
-<nav aria-label="breadcrumb">
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Начало</a></li>
-        <li class="breadcrumb-item"><a href="@Model.Category.Url">@Model.Category.Name</a></li>
-        <li class="breadcrumb-item active" aria-current="page">@this.ViewData["Title"]</li>
-    </ol>
-</nav>
-
 <div class="text-center">
     <h1>@this.ViewData["Title"]</h1>
 </div>
