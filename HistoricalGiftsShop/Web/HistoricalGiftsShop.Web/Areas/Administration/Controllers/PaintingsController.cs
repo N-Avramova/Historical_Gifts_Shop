@@ -102,7 +102,7 @@
             var paintingEditModel = this.paintingsService.GetById<PaintingEditModel>(id);
             if (paintingEditModel == null)
             {
-                return this.NotFound();
+                return this.View("CustomError");
             }
 
             var images = this.imagesService.GetByPaintingId<ImageViewModel>(id);

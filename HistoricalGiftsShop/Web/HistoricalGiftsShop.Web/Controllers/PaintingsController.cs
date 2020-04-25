@@ -22,7 +22,7 @@
             var paintingViewModel = this.paintingsService.GetById<PaintingViewModel>(id);
             if (paintingViewModel == null)
             {
-                return this.NotFound();
+                return this.View("CustomError");
             }
 
             var images = this.imagesService.GetByPaintingId<ImageViewModel>(id);

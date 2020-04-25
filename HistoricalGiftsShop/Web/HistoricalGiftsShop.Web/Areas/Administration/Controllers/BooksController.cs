@@ -93,7 +93,7 @@
             var bookCoverTypes = this.bookCoverTypesService.GetAll<BookCoverTypeDropDownViewModel>();
             if (bookEditModel == null)
             {
-                return this.NotFound();
+                return this.View("CustomError");
             }
             else
             {

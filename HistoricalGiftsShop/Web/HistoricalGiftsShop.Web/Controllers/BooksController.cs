@@ -25,7 +25,7 @@
             var bookViewModel = this.booksService.GetById<BookViewModel>(id);
             if (bookViewModel == null)
             {
-                return this.NotFound();
+                return this.View("CustomError");
             }
 
             return this.View(bookViewModel);

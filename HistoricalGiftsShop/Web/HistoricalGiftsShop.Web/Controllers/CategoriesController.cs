@@ -31,7 +31,7 @@
 
             if (viewModel == null)
             {
-                return this.NotFound();
+                return this.View("CustomError");
             }
 
             var count = 0;
