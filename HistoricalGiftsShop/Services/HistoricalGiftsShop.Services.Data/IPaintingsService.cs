@@ -22,5 +22,7 @@
         IEnumerable<T> GetPaintingsByPage<T>(int? take = null, int skip = 0);
 
         int GetPaintingsCount();
+
+        IEnumerable<T> GetPaintingsBySearchString<T>(string searchString);
     }
 }

@@ -1,0 +1,37 @@
+﻿
+@model HistoricalGiftsShop.Web.ViewModels.Categories.AllCategoriesViewModel
+@{
+    this.ViewData["Title"] = "";
+}
+
+<h4>Търсене за - @Model.SearchString</h4>
+
+@{
+    foreach (var category in Model.Categories)
+    {
+        <div class="d-inline">
+            Категория:
+            <a href="@category.Url">
+                @category.Name
+            </a>
+        </div>
+        <br />
+        if (category.Books.Any())
+        {
+            ViewData["controllerName"] = "Books";
+            <partial name="_CategoriesPartial" for="@category.Books" view-data="ViewData" />
+        }
+        else if (category.Paintings.Any())
+        {
+            ViewData["controllerName"] = "Paintings";
+            <partial name="_CategoriesPartial" for="@category.Paintings" view-data="ViewData" />
+        }
+        else
+        {
+            <div class="text-center">
+                <h5>Няма намерени резултати.</h5>
+            </div>
+        }
+        <br />
+    }
+}

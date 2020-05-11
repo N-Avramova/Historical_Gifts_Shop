@@ -56,5 +56,35 @@
 
             return this.View(viewModel);
         }
+
+        public IActionResult Search(string searchString, int page)
+        {
+            List<CategoryViewModel> categories = this.categoriesService.GetAll<CategoryViewModel>().ToList();
+
+            foreach (CategoryViewModel item in categories)
+            {
+                if (item.Name == "Картини")
+                {
+                    item.Paintings = this.paintingsService.GetPaintingsBySearchString<ProductInCategoryViewModel>(searchString);
+                }
+                else if (item.Name == "Книги")
+                {
+                    item.Books = this.booksService.GetBooksBySearchString<ProductInCategoryViewModel>(searchString);
+                }
+            }
+
+            var viewModel = new AllCategoriesViewModel()
+            {
+                SearchString = searchString,
+                Categories = categories,
+            };
+
+            if (viewModel == null)
+            {
+                return this.View("CustomError");
+            }
+
+            return this.View("Search", viewModel);
+        }
     }
 }

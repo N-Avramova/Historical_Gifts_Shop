@@ -91,6 +91,11 @@
             return query.To<T>().ToList();
         }
 
+        public IEnumerable<T> GetBooksBySearchString<T>(string searchString)
+        {
+            return this.booksRepository.All().Where(x => x.Title.Contains(searchString)).To<T>().ToList();
+        }
+
         public int GetBooksCount()
         {
             return this.booksRepository.All().Count();

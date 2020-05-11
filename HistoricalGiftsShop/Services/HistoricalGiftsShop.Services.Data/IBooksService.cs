@@ -21,5 +21,7 @@
         IEnumerable<T> GetBooksByPage<T>(int? take = null, int skip = 0);
 
         int GetBooksCount();
+
+        IEnumerable<T> GetBooksBySearchString<T>(string searchString);
     }
 }

@@ -23,12 +23,28 @@
 <body>
     <header>
         <div class="container">
-            <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">@GlobalConstants.SystemName</a>
-            <div class="shopping-cart">
-                <a asp-controller="ShoppingCarts" asp-action="Index">
-                    <span id="sumOfItems">@Context.Session.GetString("ShoppingCartSumProduct")</span>
-                    <i class="fa fa-shopping-cart"></i>
-                </a>
+            <div class="row">
+                <div class="col d-inline">
+                    <!-- Search form -->
+                    <form class="navbar-search" method="post" asp-action="Search" asp-controller="Categories">
+                        <input id="searchString" name="searchString" class="search-query" type="text" placeholder="Search" aria-label="Search">
+                        <button type="submit" class="btn">
+                            <i class="fa fa-search" aria-hidden="true"></i>
+                        </button>
+                    </form>                   
+                    @*<div id="loader" data-request-url="@Url.Action("Action", "Controller")"></div>*@
+                </div>
+                <div class="col text-center">
+                    <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">@GlobalConstants.SystemName</a>
+                </div>
+                <div class="col">
+                    <div class="shopping-cart">
+                        <a asp-controller="ShoppingCarts" asp-action="Index">
+                            <span id="sumOfItems">@Context.Session.GetString("ShoppingCartSumProduct")</span>
+                            <i class="fa fa-shopping-cart"></i>
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
         <nav class="navbar navbar-expand-sm navbar-light bg-white border-bottom box-shadow mb-3">
@@ -50,8 +66,8 @@
                             </li>
                         }
                         @*<li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>*@
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            </li>*@
                     </ul>
                 </div>
             </div>
@@ -65,7 +81,7 @@
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">        
+    <footer class="border-top footer text-muted">
         <div class="container">
             <div class="opc-text">
                 При възникване на спор, свързан с покупка онлайн, можете да ползвате сайта <a rel="nofollow" target="_blank" href="https://webgate.ec.europa.eu/odr/main/index.cfm?event=main.home.show&lng=BG">ОРС</a>

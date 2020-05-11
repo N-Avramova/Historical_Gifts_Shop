@@ -95,6 +95,11 @@
             return query.To<T>().ToList();
         }
 
+        public IEnumerable<T> GetPaintingsBySearchString<T>(string searchString)
+        {
+            return this.paintingsRepository.All().Where(x => x.Name.Contains(searchString)).To<T>().ToList();
+        }
+
         public int GetPaintingsCount()
         {
             return this.paintingsRepository.All().Count();
